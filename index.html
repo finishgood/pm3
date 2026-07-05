@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,3 +10,825 @@
     
 </body>
 </html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Finish Good IKK</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Finished Goods IKK" />
+    <meta name="keywords" content="Indah Kiat Pulp & Paper" />
+    <meta name="author" content="FG Team Work" />
+    <!-- Favicon icon -->
+    
+    <link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+    <!-- Google font-->     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="assets/css/bootstrap/css/bootstrap.min.css">
+    <!-- waves.css -->
+    <link rel="stylesheet" href="assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/icofont/css/icofont.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- Notification.css -->
+    <link rel="stylesheet" type="text/css" href="assets/pages/notification/notification.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/animate.css/css/animate.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="assets/css/style.css">
+    
+    <link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
+    <script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>     
+    <script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js "></script>  
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script type="module">
+        import { getDashboard, addStaying, readStayingByIML, updateSelesai, updateGI, updateProses, updateAmbilSJ } from './assets/js/staying.js';
+        const modelStaying = { getDashboard, addStaying, readStayingByIML, updateSelesai, updateGI, updateProses, updateAmbilSJ }
+        window.modelStaying = modelStaying; // Attach object to global scope
+
+         import { getMergedClosingByDate } from './assets/js/export.js';
+        const modelExport = {  getMergedClosingByDate }
+        window.modelExport = modelExport; // Attach object to global scope
+
+
+        
+        import { getYesterday, getTomorrow, hariIni} from './assets/js/helperIKK.js';
+        const waktuHelper = { getTomorrow, getYesterday, hariIni }
+        window.waktuHelper = waktuHelper; // Attach object to global scope
+    </script>
+
+</head>
+
+<body>
+    
+    <div class="container-loader" x-init x-show="$store.globVar.isLoading"  x-transition.duration.300ms>
+    <div class="custom-loader"></div>
+    </div>
+
+
+<!-- Pre-loader start -->
+<div class="theme-loader">
+    <div class="loader-track">
+        <div class="preloader-wrapper">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pre-loader end -->
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+        <nav class="navbar header-navbar pcoded-header">
+              <div class="navbar-wrapper">
+                  <div class="navbar-logo">
+                      <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
+                          <i class="ti-menu"></i>
+                      </a>
+                      <div class="mobile-search waves-effect waves-light">
+                          <div class="header-search">
+                              <div class="main-search morphsearch-search">
+                                  <div class="input-group">
+                                      <span class="input-group-addon search-close"><i class="ti-close"></i></span>
+                                      <input type="text" class="form-control" placeholder="Enter Keyword">
+                                      <span class="input-group-addon search-btn"><i class="ti-search"></i></span>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <a href="index.html">
+                          <img class="img-fluid" src="assets/images/app-logo.png" alt="APP Logo" />
+                      </a>
+                      <a class="mobile-options waves-effect waves-light">
+                          <i class="ti-more"></i>
+                      </a>
+                  </div>
+                
+                  <div class="navbar-container container-fluid">
+                     
+                      <ul class="nav-right">
+                          <li class="header-notification">
+                              
+                          </li>
+                          <li class="user-profile header-notification">
+                              <a href="#!" class="waves-effect waves-light">
+                                  <img src="assets/images/avatar-blank.jpg" class="img-radius" alt="User-Profile-Image">
+                                  <span x-data x-text="getUserObject().data.FullName">User</span>
+                                  <i class="ti-angle-down"></i>
+                              </a>
+                              <ul class="show-notification profile-notification">
+                                  <li class="waves-effect waves-light">
+                                      <a href="logout.html">
+                                          <i class="ti-layout-sidebar-left"></i> Logout
+                                      </a>
+                                  </li>
+                              </ul>
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+          </nav>
+    
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                
+
+                <!-- Start Sidebar -->
+
+                <nav class="pcoded-navbar">
+                        <div class="sidebar_toggle"><a href="#"><i class="icon-close icons"></i></a></div>
+                        <div class="pcoded-inner-navbar main-menu">
+                        <div class="p-15 p-b-0">    
+                        <div class="pcoded-navigation-label" data-i18n="nav.category.navigation">Layout</div>
+                          <ul class="pcoded-item pcoded-left-item">
+                              <li class="active">
+                                  <a href="index.html" class="waves-effect waves-dark">
+                                      <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                      <span class="pcoded-mtext" data-i18n="nav.dash.main">Dashboard</span>
+                                      <span class="pcoded-mcaret"></span>
+                                  </a>
+                              </li>
+                          </ul>
+                          
+
+
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu">
+                                        <a href="javascript:void(0)" class="waves-effect waves-dark">
+                                            <span class="pcoded-micon"><i class="ti-truck"></i></span>
+                                            <span class="pcoded-mtext"  data-i18n="nav.basic-components.main">Delivery</span>
+                                            <span class="pcoded-mcaret"></span>
+                                        </a>
+                                    <ul class="pcoded-submenu">
+
+                                        <li>
+                                            <a href="datadelivery.html?status=antri" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Antri Muat</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="datadelivery.html?status=proses" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Proses Muat</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="datadelivery.html?status=selesai" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Selesai Muat</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        
+                                        <li>
+                                            <a href="datadelivery.html?status=dn" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Surat Jalan</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="datadelivery.html?status=batal" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Batal Muat</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="datadelivery.html?status=yesterday" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">DN Yesterday</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        
+                                        <li>
+                                            <a href="realisasi.html" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Realisasi</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+                                        
+                           
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                  </nav>
+
+                <!-- End Sidebar -->
+
+
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page body start -->
+                                <div class="page-body button-page">
+                                    <div class="row"
+                                    x-data="dashboardView()"
+                                    x-init="getData"
+                                    >
+                                        
+                                        <div class="col-xl-12 col-xs-6">
+                                            <div class="card">
+                                                
+                                                <div class="card-header bg-primary">
+                                                    <div class="row align-items-center">
+                                                        <div class="col-9">
+                                                            <h4 class="text-white m-b-0">Delivery PM3</h4>
+                                                        </div>
+                                                        
+                                                        <div class="col-3 text-right">
+                                                            <i class="fa fa-barcode text-white f-20"></i>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="card-block">
+                                                    
+                                                    <div class="row align-items-center table-responsive">
+                                                        <table class="table table-hover table-border-style text-center align-middle table-bordered w-100">
+                                                            <thead>
+                                                                <tr class="text-center">
+                                                                    <th rowspan="2" class="text-center align-middle w-25"><h5>Status</h5></th>
+                                                                    <th colspan="3" class="text-center align-middle"><h5>Unit</h5></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="text-center align-middle"><h5>Local</h5></th>
+                                                                    <th class="text-center align-middle"><h5>Export</h5></th>
+                                                                    <th class="text-center align-middle"><h5>Total</h5></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th class=" align-middle">Antri Muat &nbsp; <a href="datadelivery.html?status=antri"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <br /><br />
+                                                                    <button @click="clickButton('daftar')" data-toggle="modal" data-target="#modalScanBarcode" class="btn bg-c-lite-green text-white mt-1 mb-1">Daftar</button>
+                                                                    </th>
+                                                                        
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.antri__local)+cekExist(dataDashboard.data.yesterday.antri__local)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.antri__export)+cekExist(dataDashboard.data.yesterday.antri__export)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.antri)+cekExist(dataDashboard.data.yesterday.antri)">&nbsp;</h5></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class=" align-middle">Proses Muat &nbsp; <a href="datadelivery.html?status=proses"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <br /><br />
+                                                                    <button @click="clickButton('proses')" data-toggle="modal" data-target="#modalScanBarcode" class="btn btn-info mt-1 mb-1">Proses</button>
+                                                                    </th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.proses__local)+cekExist(dataDashboard.data.yesterday.proses__local)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.proses__export)+cekExist(dataDashboard.data.yesterday.proses__export)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.proses)+cekExist(dataDashboard.data.yesterday.proses)">&nbsp;</h5></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class=" align-middle">Selesai Muat &nbsp; <a href="datadelivery.html?status=selesai"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <br /><br />
+                                                                        <button  @click="clickButton('selesai')" data-toggle="modal" data-target="#modalScanBarcode" class="btn btn-primary mt-1 mb-1">Selesai Muat</button>
+                                                                    </th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.selesai__local)+cekExist(dataDashboard.data.yesterday.selesai__local)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.selesai__export)+cekExist(dataDashboard.data.yesterday.selesai__export)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.selesai)+cekExist(dataDashboard.data.yesterday.selesai)">&nbsp;</h5></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class=" align-middle">Surat Jalan &nbsp; <a href="datadelivery.html?status=dn"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <br /><br />
+                                                                    <button  @click="clickButton('dn')" data-toggle="modal" data-target="#modalScanBarcode" class="btn bg-c-purple text-white mt-1 mb-1">Surat Jalan</button>
+                                                                    </th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.dn__local)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.dn__export)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.dn)">&nbsp;</h5></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class=" align-middle">Batal Muat &nbsp; <a href="datadelivery.html?status=batal"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                        <br /><br />
+                                                                        <button  @click="clickButton('batal')" data-toggle="modal" data-target="#modalScanBarcode" class="btn bg-c-red text-white mt-1 mb-1">Batal Muat</button>
+                                                                    </th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.batal__local)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.batal__export)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.batal)">&nbsp;</h5></th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class=" align-middle">Yesterday &nbsp;
+                                                                     <a href="datadelivery.html?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i>
+                                                                    </th>
+                                                                        
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.yesterday.dn__local)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.yesterday.dn__export)">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.yesterday.dn__local)+cekExist(dataDashboard.data.yesterday.dn__export)">&nbsp;</h5></th>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                        
+
+                                        
+
+                                        <!-- Modal Start -->
+                                        <div class="modal fade" id="modalScanBarcode" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" x-text="actionTitle"></h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-3 col-form-label">No IML</label>
+                                                            <div class="col-sm-6">
+                                                                <input x-show="txtSetFocus" type="number" id="input" x-ref="input" class="form-control" x-model="txtBarcode" @keydown.enter="document.getElementById('btnAction').click()" />
+                                                            </div>
+                                                            <div class="col-sm-3">
+                                                                <button type="button" @click="startScanner()" class="btn btn-primary" data-toggle="modal" data-target="#modalScanCamera">
+                                                                    <span class="icofont icofont-barcode"> Scan</span>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button id="btnAction" type="button" @click="executeBarcode()" class="btn btn-primary" data-dismiss="modal" x-text="actionButton"></button>
+                                                        <button class="d-none" data-toggle="modal" data-target="#modalDataIML" id="btnCheckIML"></button>
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal end -->
+
+                                        <!-- Modal Start -->
+                                        <div class="modal fade" id="modalDataIML" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Data IML</h5>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">No IML</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.NoIML"> </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">No DN</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.NoDN"> </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Nopol</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.Nopol"> </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Masuk Gudang</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.WaktuAntri"> </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Start Muat</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.WaktuMuat"> </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Selesai Muat</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.WaktuSelesai"> </h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-4 col-form-label">Keluar Gudang</label>
+                                                            <div class="col-sm-8">
+                                                                <h5 x-text="dataIML.WaktuGI"> </h5>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal" @click="clearIML()">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal end -->
+
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="modalScanCamera" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalCenterTitle">Scan Barcode</h5>
+                                                        <button id="btnModalScanClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div id="qr-reader"></div>
+                                                        <div id="qr-reader-results"></div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" @click="stopScanner()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Modal end -->
+
+                                        
+
+                                    </div>
+                                    
+                                <!-- Page body end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- Main-body end -->
+                
+                <div id="styleSelector">
+                
+                </div>
+            </div>
+        </div>
+    </div>
+</div>                                            
+ <script>
+    function dashboardView() {
+            return {
+                dataDashboard : {
+                    antriLocal: 0,
+                    prosesLocal: 0,
+                    selesaiLocal: 0,
+                    giLocal: 0,
+                    batalLocal: 0,
+                    yesterdayGILocal: 0,
+                    antriExport: 0,
+                    prosesExport: 0,
+                    selesaiExport: 0,
+                    giExport: 0,
+                    batalExport: 0,
+                    yesterdayGIExport: 0
+                },
+                tableExport: [],
+                dataIML:{},
+                txtSetFocus: false,
+                actionTitle: "",
+                actionButton: "",
+                destination:"",
+                action: "",
+                txtBarcode:"",
+                txtHP:"",
+                result: '',
+                html5QrCode: null,
+
+                // Initialize the scanner
+                startScanner() {
+
+                    try {
+                        this.html5QrCode = new Html5Qrcode("qr-reader");
+
+                        const config = { 
+                            fps: 10, qrbox: {width: 240, height: 120}
+                        };
+
+                        this.html5QrCode.start(
+                            { facingMode: "environment" }, // Use back camera if available
+                            config,
+                            (decodedText, decodedResult) => {
+                                // On successful scan
+                                this.txtBarcode = decodedText;
+                                console.log("Decoded:", decodedText, decodedResult);
+                                this.stopScanner();
+                            },
+                            (errorMessage) => {
+                                // Optional: handle scan errors
+                                console.debug("QR scan error:", errorMessage);
+                            }
+                        ).catch(err => {
+                            console.error("Unable to start scanning:", err);
+                            this.result = "Camera access denied or unavailable.";
+                        });
+                    } catch (err) {
+                        console.error("Scanner init error:", err);
+                        this.result = "Error initializing scanner.";
+                    }
+                },
+
+                // Stop the scanner
+                stopScanner() {
+                    document.getElementById("btnModalScanClose").click()
+                    document.getElementById('btnAction').click()
+                    if (this.html5QrCode) {
+                        this.html5QrCode.stop()
+                            .then(() => {
+                                console.log("Scanner stopped.");
+                                this.result += " (Scanner stopped)";
+                            })
+                            .catch(err => console.error("Stop error:", err));
+                    }
+                },
+                clearIML(){
+                    this.dataIML = {}
+                },
+                clearForm(){
+                    this.txtSetFocus = false
+                    this.actionTitle = ""
+                    this.actionButton = "",
+                    this.action = ""
+                    this.destination = "Local"
+                    this.txtBarcode = ""
+                    this.txtHP = ""
+                },
+                clickButton(aksi){
+                    if(aksi == "daftar"){
+                        //actionDaftar()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="daftar"
+                        this.actionTitle="Daftar Antrian"
+                        this.actionButton="Daftar"
+                        //alert(this.action)
+                    }
+
+                    if(aksi == "proses"){
+                        //actionSelesai()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="proses"
+                        this.actionTitle="Proses Muat"
+                        this.actionButton="Proses"
+                    }
+
+                    if(aksi == "selesai"){
+                        //actionSelesai()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="selesai"
+                        this.actionTitle="Selesai Muat"
+                        this.actionButton="Selesai"
+                    }
+
+                    if(aksi == "dn"){
+                        //actionGI()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="dn"
+                        this.actionTitle="Surat Jalan"
+                        this.actionButton="Print Surat Jalan"
+                    }
+
+                    if(aksi == "show"){
+                        //actionGI()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="show"
+                        this.actionTitle="Lihat Waktu IML"
+                        this.actionButton="Check"
+                    }
+
+                    if(aksi == "ambil"){
+                        //actionGI()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="ambil"
+                        this.actionTitle="Ambil Surat Jalan"
+                        this.actionButton="Serahkan Driver"
+                    }
+
+                    if(aksi == "batal"){
+                        //actionGI()
+                        this.txtSetFocus = true; 
+                        //$nextTick(() => { $refs.input.focus(); });
+                        this.action="batal"
+                        this.actionTitle="Batal Muat"
+                        this.actionButton="Batal muat"
+                    }
+                },
+                async executeBarcode(){
+                    let url = serverHosting+"/deliveryIML/"+this.action
+                    try{
+                            const data = await (await fetch(url, { method: 'POST', 
+                            headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({ 
+                                NoIML: parseInt(this.txtBarcode), 
+                                Operator: getUserObject().data.FullName,
+                                Warehouse: "PM3",
+                                WAMessages: true  }) })).json()
+                            if(data.success == true){
+                                notify("Pendaftaran Berhasil IML "+this.txtBarcode,"success")
+                                this.clearForm()
+                                this.getData()
+                            } else {
+                                notify(data.messages,"danger")
+                            }
+                        }catch(err){
+                            console.log(err)
+                            this.clearForm()
+                            notify(err,"danger")
+                        }
+                        
+                },
+                async getData(){
+                    let url = serverHosting+"/deliveryIML/dashboard/PM3"
+                    Alpine.store('globVar').isLoading = true
+                    
+                    try{
+                        const data = await (await fetch(url, { method: 'GET', 
+                            headers: {'Content-Type': 'application/json'} })).json()
+                        this.dataDashboard = data
+                        console.log(this.dataDashboard)
+                    }catch(err){
+                        console.log(err)
+                        notify(err,"danger")
+                    }finally{
+                        Alpine.store('globVar').isLoading = false
+                    }
+                        
+                }
+            }
+        }
+ </script>  
+ <script>
+        
+$(document).ready(function(){
+    $("#modalScanBarcode").on('shown.bs.modal', function(){
+        $(this).find('input[type="number"]').focus();
+    });
+});
+</script>
+
+
+<!-- Warning Section Starts -->
+<!-- Older IE warning message -->
+<!--[if lt IE 10]>
+<div class="ie-warning">
+    <h1>Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="assets/images/browser/chrome.png" alt="Chrome">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="assets/images/browser/firefox.png" alt="Firefox">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="assets/images/browser/opera.png" alt="Opera">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="assets/images/browser/safari.png" alt="Safari">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="assets/images/browser/ie.png" alt="">
+                    <div>IE (9 & above)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
+<![endif]-->
+<!-- Warning Section Ends -->
+<!-- Required Jquery -->   
+    <script type="text/javascript" src="assets/js/popper.js/popper.min.js"></script>     
+    <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js "></script>
+<!-- waves js -->
+<script src="assets/pages/waves/js/waves.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+<!-- modernizr js -->
+    <script type="text/javascript" src="assets/js/SmoothScroll.js"></script>     
+    <script src="assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+<!-- notification js -->
+<script type="text/javascript" src="assets/js/bootstrap-growl.min.js"></script>
+<script type="text/javascript" src="assets/pages/notification/notification.js"></script>
+<script src="assets/js/pcoded.min.js"></script>
+<script src="assets/js/vertical-layout.min.js "></script>
+<script src="assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="assets/js/script.js"></script>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.15.0/cdn.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script type="text/javascript" src="assets/js/bootstrap/js/bootstrap.min.js "></script>
+
+    <script type="text/javascript" src="assets/js/firestore.js "></script>
+    <script type="text/javascript" src="assets/js/backend.js "></script>
+    <script type="text/javascript" src="assets/js/functionIKK.js "></script>
+    <script type="text/javascript" src="assets/js/auth.js "></script>
+    <script>
+         document.addEventListener('alpine:init', () => {
+            Alpine.store('globVar', {
+                  isLoading: false,
+                  isShow: false,
+                  toggleIsShow(){
+                     this.isShow = !this.isShow
+                  }
+            });
+         });
+    </script>
+
+</body>
+
+</html>
+>>>>>>> 4dd47bb (first commit)

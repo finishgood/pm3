@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Dashboard Antrian Surat Jalan</title>
+   <script type="module">
+        import { getAntrian } from './assets/js/staying.js';
+        const modelStaying = { getAntrian }
+        window.modelStaying = modelStaying; // Attach object to global scope
+
+    </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+    <script type="text/javascript" src="assets/js/functionIKK.js "></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+
+<body class="bg-white-900 " x-data="antrianApp()">
+
+  <!-- HEADER -->
+  <div class="bg-blue-600 p-4 flex justify-between items-center text-white">
+    <img src="assets/images/app-logo.png" />
+    <h1 class="text-2xl font-bold">Dashboard Antrian Surat Jalan PM3 Finish Good Warehouse</h1>
+    <div class="text-right">
+      <div x-text="tanggal"></div>
+      <div x-text="jam"></div>
+    </div>
+  </div>
+
+  <!-- MAIN -->
+  <div class="grid grid-cols-3 gap-4 p-4">
+
+    <!-- CURRENT -->
+    <div class="col-span-2 bg-gray-200 rounded-2xl p-6 text-center">
+      <h2 class="text-xl mb-4">Ambil Surat Jalan</h2>
+      <div class="text-6xl font-bold text-yellow-400" x-text="dataBelumAmbilSJ1st.Nopol">Nopol</div>
+      <div class="text-6xl font-bold text-yellow-400" x-text="dataBelumAmbilSJ1st.NamaSupir">Nama</div>
+    </div>
+
+    <!-- NEXT -->
+    <div class="bg-gray-200 rounded-2xl p-6">
+      <h2 class="text-xl mb-4">Ambil Surat Jalan Berikutnya</h2>
+      <template x-for="item in dataBelumAmbilSJ" :key="item.Nopol">
+        <div class="bg-gray-100 p-3 mb-2 rounded-lg text-center text-lg">
+          <span x-text="item.Nopol"></span><br />
+          <span x-text="item.NamaSupir"></span>
+        </div>
+      </template>
+    </div>
+
+  </div>
+
+  <!-- TABLE -->
+  <div class="p-4">
+    <div class="bg-gray-200 rounded-2xl p-4">
+      <h2 class="text-xl mb-4">Daftar Antrian</h2>
+      <table class="w-full text-left">
+        <thead>
+          <tr class="border-b border-gray-600">
+            <th class="p-2">Nopol</th>
+            <th class="p-2">Driver</th>
+            <th class="p-2">Ekspedisi</th>
+            <th class="p-2">Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template x-for="item in dataAntrian" :key="item.Nopol">
+            <tr class="border-b border-gray-700">
+              <td class="p-2" x-text="item.Nopol"></td>
+              <td class="p-2" x-text="item.NamaSupir"></td>
+              <td class="p-2" x-text="item.Ekspedisi"></td>
+              <td class="p-2">
+                <span 
+                  class="px-2 py-1 rounded"
+                  :class="{
+                    'bg-slate-500 text-white': item.Status=='antri',
+                    'bg-yellow-500 text-white': item.Status=='proses',
+                    'bg-blue-500 text-white': item.Status=='selesai',
+                    'bg-green-500 text-white': item.Status=='gi'
+                  }"
+                  x-text="convert(item.Status)">
+                </span>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- OPERATOR PANEL -->
+  <div class="p-4" style="display: none;">
+    <div class="bg-gray-200 rounded-2xl p-4">
+      <h2 class="text-xl mb-4">Panel Operator</h2>
+
+      <button @click="panggil()" class="bg-blue-600 px-4 py-2 rounded mr-2">
+        Panggil
+      </button>
+
+      <button @click="selesai()" class="bg-green-600 px-4 py-2 rounded">
+        Selesai
+      </button>
+    </div>
+  </div>
+
+  <script>
+    function antrianApp() {
+      return {
+        tanggal: '',
+        jam: '',
+        dataAntrian: {},
+        dataAntrianSorted: {},
+        dataBelumAmbilSJ: {},
+        dataBelumAmbilSJ1st: {},
+        sorter: ["gi","selesai","proses","antri"],
+
+        init() {
+          setInterval(() => {
+            let now = new Date();
+            this.tanggal = indoDate(now);
+            this.jam = now.toLocaleTimeString();
+          }, 1000);
+          setInterval(() => {
+            this.getData()
+            this.panggil()
+            console.log("refresh page")
+          }, 60000);
+          this.getData()
+        },
+
+        async getData(){
+                    
+                    try{
+                        const antrian = await modelStaying.getAntrian()
+                        this.dataAntrian = antrian
+
+                        console.log(this.dataAntrian)
+                        this.dataAntrianSorted = orderByGivenArray(antrian,this.sorter,"Status")
+                        
+                        // Filter to keep only certain keys, preserving order
+                        this.dataBelumAmbilSJ = this.dataAntrianSorted.filter(q => (!q.hasOwnProperty('AmbilSJ') || q.AmbilSJ == false) && q.Status == "gi")
+                        
+                        this.dataBelumAmbilSJ.sort((a, b) => a.AntriTime.getTime() - b.AntriTime.getTime())
+                        if (this.dataBelumAmbilSJ.length > 3) {
+                            // splice(startIndex, deleteCount)
+                            // Example: remove elements from index 5 onwards
+                            this.dataBelumAmbilSJ.splice(3); // removes everything after index 4
+                        }
+
+                        this.dataBelumAmbilSJ1st = this.dataBelumAmbilSJ[0]??{}
+                        if (this.dataBelumAmbilSJ.length > 0) {
+                            this.dataBelumAmbilSJ.shift()
+                        }
+                        this.dataAntrian = this.dataAntrian.sort((a, b) => a.AntriTime.getTime() - b.AntriTime.getTime()).filter(q => !q.hasOwnProperty('AmbilSJ') || q.AmbilSJ == false);
+                        console.log("sorted")
+                        console.log(this.dataAntrianSorted)
+                        console.log(typeof this.dataBelumAmbilSJ1st.Nopol != "undefined")
+                    }catch(err){
+                        console.log(err)
+                        //notify(err,"danger")
+                    }finally{
+                    }
+                        
+                },
+                
+
+        panggil() {
+
+            
+            // suara sederhana
+            //let msg = new SpeechSynthesisUtterance(`Nomor ${next.no} silakan ke loket`);
+            let msg = new SpeechSynthesisUtterance(`Atas nama ${this.dataBelumAmbilSJ1st.NamaSupir}, dengan Nopol ${this.dataBelumAmbilSJ1st.Nopol},  silakan ke loket`);
+            msg.rate = 0.7;  // Speed of speech (1 is normal, 0.5 is slower, 2 is faster)
+            msg.pitch = 1.5; // Pitch of the voice (0 is low, 2 is high)
+            msg.volume = 0.8; // Volume level (0 is mute, 1 is full volume)
+            msg.lang = "id-ID";
+            if(typeof this.dataBelumAmbilSJ1st.Nopol != "undefined"){
+              speechSynthesis.speak(msg);
+            }
+          
+        },
+
+        convert(text){
+            if(text == "antri"){
+                return "Antri Muat"
+            }
+            if(text == "proses"){
+                return "Proses Muat"
+            }
+            if(text == "selesai"){
+                return "Selesai Muat"
+            }
+            if(text == "gi"){
+                return "Surat Jalan"
+            }
+        },
+
+      }
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Finish Good IKK</title>
+    <!-- HTML5 Shim and Respond.js IE10 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 10]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="Finished Goods IKK" />
+    <meta name="keywords" content="Indah Kiat Pulp & Paper" />
+    <meta name="author" content="FG Team Work" />
+    <!-- Favicon icon -->
+    
+    <link rel="icon" href="https://fg-ikk.github.io/selongsong/assets/images/favicon.png" type="image/x-icon">
+    <!-- Google font-->     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+    <!-- Required Fremwork -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/css/bootstrap/css/bootstrap.min.css">
+    <!-- waves.css -->
+    <link rel="stylesheet" href="https://fg-ikk.github.io/selongsong/assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+    <!-- themify-icons line icon -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/icon/themify-icons/themify-icons.css">
+    <!-- ico font -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/icon/icofont/css/icofont.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/icon/font-awesome/css/font-awesome.min.css">
+    <!-- Notification.css -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/pages/notification/notification.css">
+    <!-- Animate.css -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/css/animate.css/css/animate.css">
+    <!-- Style.css -->
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/css/style.css">
+    
+    <link rel="stylesheet" type="text/css" href="https://fg-ikk.github.io/selongsong/assets/css/jquery.mCustomScrollbar.css">
+</head>
+
+<body>
+    <div class="container-loader" x-init x-show="$store.globVar.isLoading"  x-transition.duration.300ms>
+    <div class="custom-loader"></div>
+    </div>
+<!-- Pre-loader start -->
+<div class="theme-loader">
+    <div class="loader-track">
+        <div class="preloader-wrapper">
+            <div class="spinner-layer spinner-blue">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            <div class="spinner-layer spinner-red">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            
+            <div class="spinner-layer spinner-yellow">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+            
+            <div class="spinner-layer spinner-green">
+                <div class="circle-clipper left">
+                    <div class="circle"></div>
+                </div>
+                <div class="gap-patch">
+                    <div class="circle"></div>
+                </div>
+                <div class="circle-clipper right">
+                    <div class="circle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Pre-loader end -->
+<div id="pcoded" class="pcoded">
+    <div class="pcoded-overlay-box"></div>
+    <div class="pcoded-container navbar-wrapper">
+        <div class="pcoded-main-container">
+            <div class="pcoded-wrapper">
+                
+                
+
+
+                <div class="pcoded-content">
+                    <!-- Page-header start -->
+                    
+                    <!-- Page-header end -->
+                    <div class="pcoded-inner-content">
+                        <div class="main-body">
+                            <div class="page-wrapper">
+                                <!-- Page body start -->
+                                <div class="page-body button-page">
+                                    
+                                    <div class="row">
+                                            <div class="col-sm-12">
+                                                <!-- Basic Form Inputs card start -->
+                                                <form x-data="getIML()" @submit.prevent="">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        
+                                                        <img src="https://fg-ikk.github.io/selongsong/assets/images/app-logo.png" alt="logo.png">
+                                                        <br>
+                                                        <h4>PM3 Finished Goods Warehouse</h4>
+                                                    </div>
+                                                    
+                            
+                                                    <div class="card-block">
+                                                        <h4 class="sub-title">Pendaftaran Antrian Muat Truk</h4>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No HP Driver</label>
+                                                            <div class="col-sm-4">
+                                                                <input x-model="dataForm.noHP" type="text" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No IML</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="txtNoIML" type="text" class="form-control">
+                                                            </div>
+                                                            
+                                                            <div class="col-sm-2">
+                                                                <button id="btnGetIML" @click="getByID()" type="button" class="btn waves-effect waves-light btn-primary">
+                                                                <span class="icofont icofont-search"> Cek IML</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-sm-3">
+
+                                                                <!-- Button trigger modal -->
+                                                                
+                                                                <button type="button" onclick="openScanner()" class="btn btn-primary" data-toggle="modal" data-target="#modalScanBarcode">
+                                                                <span class="icofont icofont-barcode"> Scan</span>
+                                                                </button>
+
+                                                                <!-- Modal -->
+                                                                <div class="modal fade" id="modalScanBarcode" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header">
+                                                                                <h5 class="modal-title" id="exampleModalCenterTitle">Scan Barcode</h5>
+                                                                                <button id="btnModalScanClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                                <span aria-hidden="true">&times;</span>
+                                                                                </button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <div id="qr-reader"></div>
+                                                                                <div id="qr-reader-results"></div>
+                                                                            </div>
+                                                                            <div class="modal-footer">
+                                                                                <button type="button" onclick="closeScanner()" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">No DN</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="txtNoDN" readonly type="text" x-model="dataForm.noDN" class="form-control">
+                                                            </div>
+                                                            <label class="col-sm-2 col-form-label">Nopol</label>
+                                                            <div class="col-sm-4">
+                                                                <input id="txtNopol" readonly type="text" x-model="dataForm.nopol" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Nama Supir</label>
+                                                            <div class="col-sm-10">
+                                                                <input id="txtNamaSupir" readonly type="text" x-model="dataForm.namaSupir" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                            <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Nama Expedisi</label>
+                                                            <div class="col-sm-10">
+                                                                <input id="txtEkspedisi" readonly type="text" x-model="dataForm.ekspedisi" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group row">
+                                                            <label class="col-sm-2 col-form-label">Nama Customer</label>
+                                                            <div class="col-sm-10">
+                                                                <input id="txtCustomer" readonly type="text" x-model="dataForm.customer" class="form-control">
+                                                            </div>
+                                                        </div>
+                                                        
+
+                                                        
+
+                                                        <div class="form-group row">
+                                                            
+
+                                                            <div class="col-md-3">
+                                                            <button type="button" x-bind:disabled="submitDisable" @click="submitForm()" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+                                                                
+                                                                Simpan
+                                                            </button>
+                                                            
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                </div>
+                                <!-- Page body end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Main-body end -->
+                
+            </div>
+        </div>
+    </div>
+</div>
+<div x-data="" x-show="$store.globVar.isToast"> 
+    <div :class="$store.globVar.toastClass" class="alert alert-dismissible fade show" style="position: absolute; bottom: 0; right: 0; z-index:999999 !important;">
+        <span x-text="Alpine.store('globVar').messages"></span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+</div>  
+
+
+<!-- Warning Section Starts -->
+<!-- Older IE warning message -->
+<!--[if lt IE 10]>
+<div class="ie-warning">
+    <h1>Warning!!</h1>
+    <p>You are using an outdated version of Internet Explorer, please upgrade <br/>to any of the following web browsers to access this website.</p>
+    <div class="iew-container">
+        <ul class="iew-download">
+            <li>
+                <a href="http://www.google.com/chrome/">
+                    <img src="assets/images/browser/chrome.png" alt="Chrome">
+                    <div>Chrome</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.mozilla.org/en-US/firefox/new/">
+                    <img src="assets/images/browser/firefox.png" alt="Firefox">
+                    <div>Firefox</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://www.opera.com">
+                    <img src="assets/images/browser/opera.png" alt="Opera">
+                    <div>Opera</div>
+                </a>
+            </li>
+            <li>
+                <a href="https://www.apple.com/safari/">
+                    <img src="assets/images/browser/safari.png" alt="Safari">
+                    <div>Safari</div>
+                </a>
+            </li>
+            <li>
+                <a href="http://windows.microsoft.com/en-us/internet-explorer/download-ie">
+                    <img src="assets/images/browser/ie.png" alt="">
+                    <div>IE (9 & above)</div>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <p>Sorry for the inconvenience!</p>
+</div>
+<![endif]-->
+<!-- Warning Section Ends -->
+<!-- Required Jquery -->
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/jquery/jquery.min.js"></script>     
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/jquery-ui/jquery-ui.min.js "></script>     
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/popper.js/popper.min.js"></script>     
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/bootstrap/js/bootstrap.min.js "></script>
+<!-- waves js -->
+<script src="https://fg-ikk.github.io/selongsong/assets/pages/waves/js/waves.min.js"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/jquery-slimscroll/jquery.slimscroll.js "></script>
+<!-- modernizr js -->
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/SmoothScroll.js"></script>
+    <script src="https://fg-ikk.github.io/selongsong/assets/js/jquery.mCustomScrollbar.concat.min.js "></script>
+<!-- notification js -->
+<script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/bootstrap-growl.min.js"></script>
+<script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/pages/notification/notification.js"></script>
+<script src="https://fg-ikk.github.io/selongsong/assets/js/pcoded.min.js"></script>
+<script src="https://fg-ikk.github.io/selongsong/assets/js/vertical-layout.min.js "></script>
+<script src="https://fg-ikk.github.io/selongsong/assets/js/jquery.mCustomScrollbar.concat.min.js"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/script.js"></script>
+
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.15.0/cdn.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.2.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.1.2/firebase-firestore.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5-qrcode/2.3.8/html5-qrcode.min.js"></script>
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/bootstrap/js/bootstrap.min.js "></script>
+
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/firestore.js "></script>
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/backend.js "></script>
+    <script type="text/javascript" src="https://fg-ikk.github.io/selongsong/assets/js/functionIKK.js "></script>
+    
+    
+    <script>
+    
+      let txtNoIML = document.getElementById("txtNoIML");
+      let qrResult = document.getElementById("qr-reader-results");
+      //console.log(txtTracking);
+      //qr-reader-results
+      const html5QrCode = new Html5Qrcode("qr-reader");
+      var lastResult = 0
+        function openScanner(){
+        // Opening the scanner
+        //html5QrCode.start({ facingMode: { exact: "environment"} }, config, qrCodeSuccessCallback);
+        html5QrCode.start(
+            { facingMode: "environment" }, 
+            {
+                fps: 10, qrbox: {width: 240, height: 120}
+            },
+            qrCodeMessage => {
+                // do something when code is read
+                if(lastResult != qrCodeMessage){
+                    txtNoIML.value = qrCodeMessage;
+                    document.getElementById("btnModalScanClose").click();
+                    document.getElementById("btnGetIML").click();
+                    closeScanner();
+                    lastResult = qrCodeMessage
+                }
+                console.log(qrCodeMessage);
+                
+            },
+            errorMessage => {
+                // parse error, ignore it.
+                console.log(errorMessage);
+            })
+            .catch(err => {
+            // Opening the scanner failed.
+                console.log(err);
+            });
+        }
+        function closeScanner(){
+            html5QrCode.stop().then(ignore => {
+
+            }).catch(err => {
+            });
+        }
+
+
+      function myClock() {         
+      setTimeout(function() {   
+         const d = new Date();
+         const n = d.toLocaleString();
+         txtDateTime.value = n; 
+         myClock();             
+      }, 1000)
+      }
+      //myClock();
+      
+  </script>
+  <script>
+    
+    function getIML() {
+            return {
+                dataForm: {
+                    noIML: "",
+                    noDN: "",
+                    nopol: "",
+                    namaSupir: "",
+                    ekspedisi: "",
+                    customer: "",
+                    noHP: "",
+                    tglIML:""
+                },
+                buttonText: "Transfer",
+                buttonScanText: "Scan Barcode",
+                submitDisable: true,
+                isExist: false,
+                isReady: true,
+                loading: false,
+                showDetail: false,
+                showNotification: false,
+                textNotification: "",
+                bgNotification: "",
+                showTransferForm: true,
+                clearForm(){
+                    this.dataForm.noDN = ""
+                    this.dataForm.noIML = "";
+                    this.dataForm.nopol = "";
+                    this.dataForm.namaSupir = "";
+                    this.dataForm.ekspedisi = "";
+                    this.dataForm.customer = "";
+                    this.dataForm.tglIML = "";
+                    this.dataForm.noHP = "";
+                },
+                async getByID() {
+                    //let token="D03NT_LF5g2y8kJo6ATzKPdIOouHA55WIuc6ax8Ll-u-HdYICpnWgnkub8XIndQ_01JH9SEktK_sS9AfTv61aDmNnRcUxeiG_hgRfSvsM2RaWGfWHVyFUI-tlZyD_DQmNb8KnTlIlhOjKaZZbG2pLJ8zYagC-s1FpKgNLb4-wEFhkxfr1JaUXxiUynJ4WzkL8OtLyCIVDFRn7gjW1Gb6WUXe05azlRcx0hyp3-fFy3jY9Y5kVph4SQctVo8PrRZZHTwFmaOEZ0aIZBU4uixaw2f5Z7pLzihu7pzDxfGUCdagAKTQpC0jhrQqoLKBgfwfc5r_CEUMH4vvcmuN5Zqn52ztiSiZ6TCDAL8lJj52nGeIFpwWtB1aye44OYSaMlfJr6sGGd_hnOvTsAuNBdqxAA"
+                    
+                    this.submitDisable = true
+                    let imlValue = document.getElementById("txtNoIML").value
+                    this.isReady = this.getAntrianByIML(imlValue)
+                    const FORM_ENDPOINT = `https://www.indahkiat.my.id/check_auth.php?NoIML=` + imlValue;
+                    this.loading = true;
+                    Alpine.store('globVar').isLoading = true
+                    await fetch(FORM_ENDPOINT, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    })
+                    .then(response => {
+                        console.log(response.status); // Logs the numerical status code (e.g., 200, 404, 500)
+                        
+                        return response.json(); // Or .text(), .blob(), etc., depending on content type)
+                        })
+                    .then(data => {
+                        console.log(data);
+                        if(data.message == "Data Not Found"){
+                            notify(data.message, 'danger');
+                        } else {
+                            
+                            //fillDataForm = (data) =>
+                            //{
+                                this.dataForm.noDN = data.data.NoDN;
+                                this.dataForm.noIML = data.data.NoIML;
+                                this.dataForm.nopol = data.data.Nopol;
+                                this.dataForm.namaSupir = data.data.NamaSupir;
+                                this.dataForm.ekspedisi = data.data.Ekspedisi;
+                                this.dataForm.customer = data.data.Customer;
+                                this.dataForm.tglIML = data.data.Tanggal;
+                            //}
+                            //data.data.forEach(element => fillDataForm(element));
+                            //this.isReady = this.getAntrianByIML(this.dataForm.noIML)
+                            
+                        }
+                        
+                        //this.showNotif("success","Success getting IC data");
+                        //this.showTransferForm = true;
+                    })
+                    .catch(error => {
+                    console.error('Error:', error);
+                    notify(error, 'danger');
+                    
+                    // Tangani error di sini
+                    })
+                    .finally(() => {
+                        this.loading = false;
+                        Alpine.store('globVar').isLoading = false
+                        
+                    });
+                },
+                getAntrianByIML(noIML){
+                    
+                    this.isExist = false
+                    templateQueryFilter= {
+                                            "structuredQuery": {
+                                                "select": {
+                                                    "fields": [{
+                                                        "fieldPath": "NoIML"
+                                                        }]
+                                                },
+                                                "from": [{
+                                                    "collectionId": "stayingtime",
+                                                    "allDescendants": true
+                                                }],
+                                                "where": {
+                                                    "fieldFilter": {
+                                                        "field": {
+                                                            "fieldPath": "NoIML"
+                                                        },
+                                                        "op": "EQUAL",
+                                                        "value": {
+                                                            "integerValue": 0,
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                        templateQueryFilter.structuredQuery.where.fieldFilter.value.integerValue = parseInt(noIML)
+
+                        return fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
+                            method: 'POST',
+                            headers: { 
+                                    'Content-Type': 'application/json' 
+                            },
+                            body: JSON.stringify(templateQueryFilter)
+                        })
+                        .then((res) => {
+                            //console.log(res) 
+                            return res.json()
+                            
+                        }) 
+                        .then(data => {
+                            
+                            //console.log(data);
+                            this.isExist = data[0].hasOwnProperty('document')
+                            if(this.isExist){
+                                notify("Sudah pernah daftar", 'danger');
+                                this.submitDisable = true
+                                return false
+                            }
+                            this.submitDisable = false
+                            return true
+                        })                    
+                        .catch(error => {
+                            console.error('Error:', error);
+                            return false
+                            
+                            // Tangani error di sini
+                        })
+
+                },
+                async submitForm() {
+                    
+                    Alpine.store('globVar').isLoading = true
+                    this.submitDisable = true
+                    if(!this.isReady){
+                        notify("Sudah pernah daftar", 'danger');
+                        return false
+                    }
+                    let postedObject = {
+                            "fields": {
+                                "NoIML": {
+                                "integerValue": this.dataForm.noIML
+                                },
+                                "NoDN": {
+                                "stringValue": this.dataForm.noDN
+                                },
+                                "Nopol": {
+                                "stringValue": this.dataForm.nopol
+                                },
+                                "NamaSupir": {
+                                "stringValue": this.dataForm.namaSupir
+                                },
+                                "NoHP": {
+                                "stringValue": this.dataForm.noHP
+                                },
+                                "Ekspedisi": {
+                                "stringValue": this.dataForm.ekspedisi
+                                },
+                                "Customer": {
+                                "stringValue": this.dataForm.customer
+                                },
+                                "WaktuIML": {
+                                "timestampValue": new Date(this.dataForm.tglIML).toISOString()
+                                },
+                                "WaktuAntri": {
+                                "timestampValue": new Date().toISOString()
+                                },"GateNumber": {
+                                "stringValue": ""
+                                },
+                                "OperatorForklift": {
+                                "stringValue": ""
+                                },
+                                "WaktuMuat": {
+                                "timestampValue": new Date(0).toISOString()
+                                },
+                                "OperatorMuat": {
+                                "stringValue": ""
+                                },"WaktuSelesai": {
+                                "timestampValue": new Date(0).toISOString()
+                                },
+                                "OperatorSelesai": {
+                                "stringValue": ""
+                                },
+                                "WaktuGI": {
+                                "timestampValue": new Date(0).toISOString()
+                                },
+                                "OperatorGI": {
+                                "stringValue": ""
+                                },
+                                "WaktuBatal": {
+                                "timestampValue": new Date(0).toISOString()
+                                },
+                                "OperatorBatal": {
+                                "stringValue": ""
+                                },
+                                "Status": {
+                                "stringValue": "antri"
+                                },
+                                "Keterangan": {
+                                "stringValue": ""
+                                }
+                            }
+                        }
+                    
+                    await fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/stayingtime`, {
+                        method: 'POST',
+                        headers: { 
+                                //'Authorization': `Bearer ${getFireToken()}`,
+                                'Content-Type': 'application/json' 
+                        },
+                        body: JSON.stringify(postedObject)
+                    })
+                    .then(res => res.json()) 
+                    .then(data => {
+                        console.log(data)
+                        notify("Daftar Sukses", 'success');
+                        this.clearForm()
+                    })                    
+                    .catch(error => {
+                        console.error('Error:', error);
+                        notify(error, 'danger');
+                    })
+                    .finally(() => {
+                            Alpine.store('globVar').isLoading = false
+                            this.submitDisable = true
+                    });
+                    
+                }
+            }
+        }
+                    
+  </script>
+  <script>
+    document.addEventListener('alpine:init', () => {
+            Alpine.store('globVar', {
+                  isLoading: false,
+                  isShow: false,
+                  toggleIsShow(){
+                     this.isShow = !this.isShow
+                  }
+            });
+         });
+    //x-show="$store.globVar.isLoading"
+    
+    
+    
+    //let stock = new stockSelongsong()
+    //stock.plus(1,2)
+    //stock.minus(2,4)
+    /*
+    actStock = async () =>{
+    try {
+        const data = await stock.getSelongsongStock();
+        return data
+    }
+    catch (err) {
+        console.log(err);
+    }
+    }
+    console.log(actStock())
+    */
+
+    //let selong = new Selongsong()
+    /*
+    selong.add(JSON.parse(`{
+        "NoIML": 44014361,
+        "Tanggal": "2025-10-14",
+        "Nopol": "B9324UFZ",
+        "NamaSupir": "ASMANTO TRWB",
+        "Ekspedisi": "PT.TRANSPORTASI NUSANTARA JAYA",
+        "Customer": "PT. KONVERTA MITRA ABADI",
+        "NoDN": "3331561271,3331561309",
+        "Qty" : 1
+    }`))
+    */
+   /*
+   selong.getWhere(JSON.parse(
+            `[{
+            "key": "NoIML",
+            "criteria": "==", 
+            "value": 44014361
+        }]`)
+    );
+    */
+   //selong.get("zsUcVPr6k8WYNTS1pUqw");
+   /*
+   selong.update("zsUcVPr6k8WYNTS1pUqw",JSON.parse(`{
+        "NoIML": 44014361,
+        "Tanggal": "2025-10-14",
+        "Nopol": "B9324UFZ",
+        "NamaSupir": "ASMANTO TRWB",
+        "Ekspedisi": "PT.TRANSPORTASI NUSANTARA JAYA",
+        "Customer": "PT. KONVERTA MITRA ABADI",
+        "NoDN": "3331561271,3331561309",
+        "Qty" : 1
+    }`))
+    */
+   //selong.get("zsUcVPr6k8WYNTS1pUqw");
+   //selong.getAll();
+  </script>
+</body>
+
+</html>

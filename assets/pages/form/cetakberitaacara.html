@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+        margin-left: auto;
+        margin-right: auto;
+        }
+        table{
+        text-align: center;
+        width: 100%
+        }
+    </style>
+    <title>Form Serah Terima</title>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"
+      integrity="sha512-MpDFIChbcXl2QgipQrt1VcPHMldRILetapBl5MPCA9Y8r7qvlwx1/Mc9hNTzY+kS5kX6PdoDq41ws1HiVNLdZA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    
+</head>
+<body>
+
+        
+    <div id="content">
+        <img src="../../images/logo-ikk.png" width="150" height="50" style="overflow: visible; width: 150;height: 50px;"></img>
+        <p style="text-align: right;"><small>Nomor : <span id="nomor"></span></small></p>
+        <h2 style="text-align: center;">Berita Acara Pengecekan</h2>
+        <br />
+        <p>Subject : <span id="subject"></span></p>
+        <p>Telah dilakukan pengecekan pada tanggal <span id="tanggal"></span> terhadap finish good product berikut:</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>No</th>
+                    <th>Unit ID</th>
+                    <th>No Mat.</th>
+                    <th>Desc</th>
+                    <th>Width</th>
+                    <th>Weight</th>
+                    <th>Defect</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody id="listRoll">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+        <br />
+        <p>Keterangan : <span id="keterangan"></span></p>
+        <p>Demikian berita acara ini dibuat untuk dipergunakan sebagaimana mestinya.</p>
+        <br />
+        <table style="width: 80%">
+            <tr>
+                <td style="width: 20%;">Dibuat Oleh</td>
+                <td style="width: 20%;">Mengetahui</td>
+                <td style="width: 20%;">Mengetahui</td>
+                <td style="width: 20%;">Verifikasi</td>
+            </tr>
+            <tr style="height: 100px;">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td id="dibuat"></td>
+                <td id="mengetahui1"></td>
+                <td id="mengetahui2"></td>
+                <td id="verifikasi"></td>
+            </tr>
+            <tr>
+                <td>Finish Good</td>
+                <td>Finish Good</td>
+                <td>Produksi</td>
+                <td>QC</td>
+            </tr>
+        </table>
+        
+        
+    </div>
+
+<script type="module">
+        import { addBeritaAcara, listBeritaAcara, generateNewNumber } from './assets/js/beritaacara.js';
+        const beritaAcara = { addBeritaAcara,listBeritaAcara, generateNewNumber };
+        window.beritaAcara = beritaAcara; // Attach object to global scope
+</script>
+<script>
+    // Arrow function to get the parameter
+    // of the specified key
+    getParameter = (key) => {
+
+        // Address of the current window
+        address = window.location.search
+
+        // Returns a URLSearchParams object instance
+        parameterList = new URLSearchParams(address)
+
+        // Returning the respected value associated
+        // with the provided key
+        return parameterList.get(key)
+    }
+
+    function toProperCase(str) {
+        return str
+        .toLowerCase() // Convert the entire string to lowercase
+        .split(' ') // Split the string into an array of words
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1)) // Capitalize the first letter of each word
+        .join(' '); // Join the words back into a single string
+    }
+
+    // Gets the value associated with the key "ie"
+    let getID = getParameter("id")
+    getData(getID)
+
+    async function getData(id) {
+    
+
+    const tes = "OJI1wC56Fr5SpQ8BkiEz"
+    const url = "https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/berita_acara_check/"+id;
+    const urlDetail = "https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents/berita_acara_check_detail/"+id;
+    try {
+        const response = await fetch(url);
+        if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+        }
+        const month = ["Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember"];
+        const result = await response.json();
+        let tanggal = new Date(result.fields.tglBA.stringValue)
+        const formattedDate = `${tanggal.getDate()}-${month[tanggal.getMonth()]}-${tanggal.getFullYear()}`
+        console.log(formattedDate);
+      
+        document.getElementById("nomor").innerHTML = result.fields.noBA.stringValue
+        document.getElementById("tanggal").innerHTML = formattedDate
+        document.getElementById("dibuat").innerHTML = toProperCase(result.fields.dibuat.stringValue)
+        document.getElementById("mengetahui1").innerHTML = toProperCase(result.fields.mengetahui1.stringValue)
+        document.getElementById("mengetahui2").innerHTML = toProperCase(result.fields.mengetahui2.stringValue)
+        document.getElementById("verifikasi").innerHTML = toProperCase(result.fields.verifikasi.stringValue)
+        document.getElementById("subject").innerHTML = result.fields.subject.stringValue
+        document.getElementById("keterangan").innerHTML = result.fields.keterangan.stringValue
+
+        
+    } catch (error) {
+        console.error(error);
+    }
+
+    try{
+        templateQueryFilter= {
+                                            "structuredQuery": {
+                                                "from": [{
+                                                    "collectionId": "berita_acara_check_detail",
+                                                    "allDescendants": true
+                                                }],
+                                                "where": {
+                                                    "fieldFilter": {
+                                                        "field": {
+                                                            "fieldPath": "id"
+                                                        },
+                                                        "op": "EQUAL",
+                                                        "value": {
+                                                            "stringValue": id,
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                        templateQueryFilter.structuredQuery.where.fieldFilter.value.stringValue = id
+
+                        return fetch(`https://firestore.googleapis.com/v1/projects/fg-ikk/databases/(default)/documents:runQuery`, {
+                            method: 'POST',
+                            headers: { 
+                                    'Content-Type': 'application/json' 
+                            },
+                            body: JSON.stringify(templateQueryFilter)
+                        })
+                        .then((res) => {
+                            //console.log(res) 
+                            return res.json()
+                            
+                        }) 
+                        .then(data => {
+
+                            const respon =  data.map((item,index) => {
+                                return {
+                                name : item.document.name.split('/').pop(),
+                                unitID: (typeof item.document.fields.unitID != "undefined")?item.document.fields.unitID.stringValue:"",
+                                noMat: (typeof item.document.fields.noMat != "undefined")?item.document.fields.noMat.stringValue:"",
+                                qty: (typeof item.document.fields.qty != "undefined")?parseFloat(item.document.fields.qty.integerValue):0,
+                                width: (typeof item.document.fields.width != "undefined")?parseFloat(item.document.fields.width.integerValue):0,
+                                action: (typeof item.document.fields.action != "undefined")?item.document.fields.action.stringValue:"",
+                                defect: (typeof item.document.fields.defect != "undefined")?item.document.fields.defect.stringValue:"",
+                                desc: (typeof item.document.fields.desc != "undefined")?item.document.fields.desc.stringValue:"",
+                                id: (typeof item.document.fields.id != "undefined")?item.document.fields.id.stringValue:""
+                            
+                            }
+                            })
+                            console.log(respon)    
+                            const tbody = document.getElementById("listRoll")
+                            // Creating table body
+                            respon.forEach((item, index)=> {
+                                 // Insert cells and set text
+                                let row = tbody.insertRow();
+                                row.insertCell().textContent = index+1;
+                                row.insertCell().textContent = item.unitID;
+                                row.insertCell().textContent = item.noMat;
+                                row.insertCell().textContent = item.desc;
+                                row.insertCell().textContent = item.width;
+                                row.insertCell().textContent = item.qty.toLocaleString('en-US');
+                                row.insertCell().textContent = item.defect;
+                                row.insertCell().textContent = item.action;
+                            });
+
+                            let rowTotal = tbody.insertRow();
+                                rowTotal.insertCell().colSpan = "5"
+                                rowTotal.insertCell().textContent = respon.reduce((accumulator, currentValue) => {
+                                                                    return (accumulator + currentValue.qty); // update accumulator
+                                                                    }, 0).toLocaleString('en-US');
+                                rowTotal.insertCell().colSpan = "2"
+                            //console.log(data);
+                            
+                            const element = document.querySelector('#content');
+                            const options = {
+                            filename: document.getElementById("nomor").innerText + ".pdf",
+                            margin: 10,
+                            image: { type: 'jpeg', quality: 0.98 },
+                            html2canvas: { scale: 2 },
+                            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                            };
+                            html2pdf().set(options).from(element).save();
+                            setTimeout(() => window.close(), 2000);
+                           
+                        })                    
+                        .catch(error => {
+                            console.error('Error:', error);
+                            
+                            // Tangani error di sini
+                        })
+    }catch (err){
+        console.log(err)
+    }
+
+    
+    
+
+}
+    
+</script>
+</body>
+</html>
