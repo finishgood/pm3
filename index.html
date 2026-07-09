@@ -395,6 +395,12 @@
                                                         </button>
                                                     </div>
                                                     <div class="modal-body">
+                                                        <div class="form-group row" x-show="(action=='proses')">
+                                                            <label class="col-sm-3 col-form-label">No Forklift</label>
+                                                            <div class="col-sm-6">
+                                                                <input type="text" class="form-control" x-model="txtOperatorForklift" />
+                                                            </div>
+                                                        </div>
                                                         <div class="form-group row">
                                                             <label class="col-sm-3 col-form-label">No IML</label>
                                                             <div class="col-sm-6">
@@ -538,7 +544,9 @@
                     selesaiExport: 0,
                     giExport: 0,
                     batalExport: 0,
-                    yesterdayGIExport: 0
+                    yesterdayGIExport: 0,
+                    belumTimbang2:0,
+                    parkirDCO:0
                 },
                 tableExport: [],
                 dataIML:{},
@@ -548,6 +556,7 @@
                 destination:"",
                 action: "",
                 txtBarcode:"",
+                txtOperatorForklift: "",
                 txtHP:"",
                 result: '',
                 html5QrCode: null,
@@ -683,6 +692,7 @@
                             body: JSON.stringify({ 
                                 NoIML: parseInt(this.txtBarcode), 
                                 Operator: getUserObject().data.FullName,
+                                OperatorForklift: this.txtOperatorForklift,
                                 Warehouse: "PM3",
                                 WAMessages: true  }) })).json()
                             if(data.success == true){
