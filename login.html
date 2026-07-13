@@ -274,7 +274,7 @@
                     localStorage.setItem('userDetail', JSON.stringify({"data":{"FullName": loginDetail.nama, "UserID": loginDetail.sap}})); 
                     console.log(getUserObject()) 
                     notify("Login berhasil", 'success');
-                    setTimeout(() => window.location = "index.html", 500);
+                    setTimeout(() => window.location = "index.php", 500);
                 }
                 else {
                     notify("Login Failed, try again", 'danger');
