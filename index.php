@@ -180,7 +180,7 @@
                                                             </thead>
                                                             <tbody>
                                                                 <tr>
-                                                                    <th class=" align-middle">Antri Muat &nbsp; <a href="datadelivery.html?status=antri"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <th class=" align-middle">Antri Muat &nbsp; <a href="datadelivery.php?status=antri"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                     <br /><br />
                                                                     <button @click="clickButton('daftar')" data-toggle="modal" data-target="#modalScanBarcode" class="btn bg-c-lite-green text-white mt-1 mb-1">Daftar</button>
                                                                     </th>
@@ -190,7 +190,7 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.antri)+cekExist(dataDashboard.data.yesterday.antri)">&nbsp;</h5></th>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class=" align-middle">Proses Muat &nbsp; <a href="datadelivery.html?status=proses"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <th class=" align-middle">Proses Muat &nbsp; <a href="datadelivery.php?status=proses"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                     <br /><br />
                                                                     <button @click="clickButton('proses')" data-toggle="modal" data-target="#modalScanBarcode" class="btn btn-info mt-1 mb-1">Proses</button>
                                                                     </th>
@@ -199,7 +199,7 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.proses)+cekExist(dataDashboard.data.yesterday.proses)">&nbsp;</h5></th>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class=" align-middle">Selesai Muat &nbsp; <a href="datadelivery.html?status=selesai"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <th class=" align-middle">Selesai Muat &nbsp; <a href="datadelivery.php?status=selesai"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                     <br /><br />
                                                                         <button  @click="clickButton('selesai')" data-toggle="modal" data-target="#modalScanBarcode" class="btn btn-primary mt-1 mb-1">Selesai Muat</button>
                                                                     </th>
@@ -208,7 +208,7 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.selesai)+cekExist(dataDashboard.data.yesterday.selesai)">&nbsp;</h5></th>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class=" align-middle">Surat Jalan &nbsp; <a href="datadelivery.html?status=dn"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <th class=" align-middle">Surat Jalan &nbsp; <a href="datadelivery.php?status=dn"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                     <br /><br />
                                                                     <button  @click="clickButton('dn')" data-toggle="modal" data-target="#modalScanBarcode" class="btn bg-c-purple text-white mt-1 mb-1">Surat Jalan</button>
                                                                     </th>
@@ -217,7 +217,7 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.dn)">&nbsp;</h5></th>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class=" align-middle">Batal Muat &nbsp; <a href="datadelivery.html?status=batal"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    <th class=" align-middle">Batal Muat &nbsp; <a href="datadelivery.php?status=batal"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                         <br /><br />
                                                                         <button  @click="clickButton('batal')" data-toggle="modal" data-target="#modalScanBarcode" class="btn bg-c-red text-white mt-1 mb-1">Batal Muat</button>
                                                                     </th>
@@ -227,7 +227,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th class=" align-middle">Yesterday &nbsp;
-                                                                     <a href="datadelivery.html?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i>
+                                                                     <a href="datadelivery.php?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i>
                                                                     </th>
                                                                         
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.yesterday.dn__local)">&nbsp;</h5></th>
