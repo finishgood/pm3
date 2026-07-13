@@ -226,6 +226,14 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.batal)">&nbsp;</h5></th>
                                                                 </tr>
                                                                 <tr>
+                                                                    <th class=" align-middle">Belum Timbang 2
+                                                                    </th>
+                                                                        
+                                                                    <th class="text-center align-middle"> <h5 x-text="dataBelumTimbang2.data.hasOwnProperty('local')?dataBelumTimbang2.data.local.length:0">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="dataBelumTimbang2.data.hasOwnProperty('export')?dataBelumTimbang2.data.export.length:0">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="dataBelumTimbang2.data.hasOwnProperty('all')?dataBelumTimbang2.data.all.length:0">&nbsp;</h5></th>
+                                                                </tr>
+                                                                <tr>
                                                                     <th class=" align-middle">Yesterday &nbsp;
                                                                      <a href="datadelivery.php?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i>
                                                                     </th>
@@ -409,6 +417,13 @@
                     belumTimbang2:0,
                     parkirDCO:0
                 },
+                dataBelumTimbang2:{
+                    data:{
+                        all:{},
+                        local:{},
+                        export:{}
+                    }
+                },
                 tableExport: [],
                 dataIML:{},
                 txtSetFocus: false,
@@ -572,13 +587,17 @@
                 },
                 async getData(){
                     let url = serverHosting+"/deliveryIML/dashboard/PM3"
+                    let url2 = serverHosting+"/deliveryIML/belumtimbang2/PM3"
                     Alpine.store('globVar').isLoading = true
                     
                     try{
                         const data = await (await fetch(url, { method: 'GET', 
                             headers: {'Content-Type': 'application/json'} })).json()
                         this.dataDashboard = data
-                        console.log(this.dataDashboard)
+                        const data2 = await (await fetch(url2, { method: 'GET', 
+                            headers: {'Content-Type': 'application/json'} })).json()
+                        this.dataBelumTimbang2 = data2
+                        console.log(this.dataBelumTimbang2)
                     }catch(err){
                         console.log(err)
                         notify(err,"danger")
