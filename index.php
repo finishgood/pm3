@@ -226,7 +226,8 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.today.batal)">&nbsp;</h5></th>
                                                                 </tr>
                                                                 <tr>
-                                                                    <th class=" align-middle">Belum Timbang 2
+                                                                    <th class=" align-middle">Belum Timbang 2 &nbsp;
+                                                                     <a href="datadelivery.php?status=belumtimbang2"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                     </th>
                                                                         
                                                                     <th class="text-center align-middle"> <h5 x-text="dataBelumTimbang2.data.hasOwnProperty('local')?dataBelumTimbang2.data.local.length:0">&nbsp;</h5></th>
@@ -235,7 +236,7 @@
                                                                 </tr>
                                                                 <tr>
                                                                     <th class=" align-middle">Yesterday &nbsp;
-                                                                     <a href="datadelivery.php?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i>
+                                                                     <a href="datadelivery.php?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i></a>
                                                                     </th>
                                                                         
                                                                     <th class="text-center align-middle"> <h5 x-text="cekExist(dataDashboard.data.yesterday.dn__local)">&nbsp;</h5></th>

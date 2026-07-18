@@ -65,6 +65,13 @@
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
+                                        <li>
+                                            <a href="datadelivery.php?status=belumtimbang2" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Belum Timbang 2</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
 
                                         <li>
                                             <a href="datadelivery.php?status=yesterday" class="waves-effect waves-dark">
@@ -79,6 +86,14 @@
                                             <a href="realisasi.php" class="waves-effect waves-dark">
                                                 <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
                                                 <span class="pcoded-mtext" data-i18n="nav.dash.main">Realisasi</span>
+                                                <span class="pcoded-mcaret"></span>
+                                            </a>
+                                        </li>
+
+                                        <li>
+                                            <a href="cetakselongsong.php" class="waves-effect waves-dark">
+                                                <span class="pcoded-micon"><i class="ti-home"></i><b>D</b></span>
+                                                <span class="pcoded-mtext" data-i18n="nav.dash.main">Cetak Selongsong</span>
                                                 <span class="pcoded-mcaret"></span>
                                             </a>
                                         </li>
