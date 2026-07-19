@@ -147,6 +147,7 @@
                                                         <button class="btn waves-effect waves-light btn-danger" data-toggle="modal" data-target="#modalAction">
                                                             <i class="icofont icofont-close"></i>Batal
                                                         </button>
+                                                        <h6 x-show="((getParameter('status')=='belumtimbang2' || getParameter('status')=='parkirdco'))" >Update DCO <span x-text="updatedDCO"></span></h6>
                                                         <div class="table-responsive" 
                                                             >
                                                             <table class="table table-hover">
@@ -347,6 +348,7 @@
         function getDelivery(){
             return {
                 dataDelivery:{},
+                updatedDCO: "",
                 selectedIML:0,
                 getData(){
                     Alpine.store('globVar').isLoading = true
@@ -400,6 +402,14 @@
                             
                         }
                        this.dataDelivery = respon
+                       this.updatedDCO = (new Date(data.tanggal)).toLocaleString('en-US', { 
+                                                    day: '2-digit', 
+                                                    month: 'short', 
+                                                    year: 'numeric', 
+                                                    hour: '2-digit', 
+                                                    minute: '2-digit',
+                                                    hour12: false 
+                                                    })
                         console.log(respon);
                     })                    
                     .catch(error => {
