@@ -234,6 +234,15 @@
                                                                     <th class="text-center align-middle"> <h5 x-text="dataBelumTimbang2.data.hasOwnProperty('export')?dataBelumTimbang2.data.export.length:0">&nbsp;</h5></th>
                                                                     <th class="text-center align-middle"> <h5 x-text="dataBelumTimbang2.data.hasOwnProperty('all')?dataBelumTimbang2.data.all.length:0">&nbsp;</h5></th>
                                                                 </tr>
+                                                                 <tr>
+                                                                    <th class=" align-middle">Parkir DCO &nbsp;
+                                                                     <a href="datadelivery.php?status=parkirdco"><i class="fa fa-external-link text-c-blue f-16"></i></a>
+                                                                    </th>
+                                                                        
+                                                                    <th class="text-center align-middle"> <h5 x-text="dataParkirDCO.data.hasOwnProperty('local')?dataParkirDCO.data.local.length:0">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="dataParkirDCO.data.hasOwnProperty('export')?dataParkirDCO.data.export.length:0">&nbsp;</h5></th>
+                                                                    <th class="text-center align-middle"> <h5 x-text="dataParkirDCO.data.hasOwnProperty('all')?dataParkirDCO.data.all.length:0">&nbsp;</h5></th>
+                                                                </tr>
                                                                 <tr>
                                                                     <th class=" align-middle">Yesterday &nbsp;
                                                                      <a href="datadelivery.php?status=yesterday"><i class="fa fa-external-link text-c-blue f-16"></i></a>
@@ -425,6 +434,13 @@
                         export:{}
                     }
                 },
+                dataParkirDCO:{
+                    data:{
+                        all:{},
+                        local:{},
+                        export:{}
+                    }
+                },
                 tableExport: [],
                 dataIML:{},
                 txtSetFocus: false,
@@ -589,6 +605,7 @@
                 async getData(){
                     let url = serverHosting+"/deliveryIML/dashboard/PM3"
                     let url2 = serverHosting+"/deliveryIML/belumtimbang2/PM3"
+                    let url3 = serverHosting+"/deliveryIML/parkirdco/PM3"
                     Alpine.store('globVar').isLoading = true
                     
                     try{
@@ -598,6 +615,9 @@
                         const data2 = await (await fetch(url2, { method: 'GET', 
                             headers: {'Content-Type': 'application/json'} })).json()
                         this.dataBelumTimbang2 = data2
+                        const data3 = await (await fetch(url3, { method: 'GET', 
+                            headers: {'Content-Type': 'application/json'} })).json()
+                        this.dataParkirDCO = data3
                         console.log(this.dataBelumTimbang2)
                     }catch(err){
                         console.log(err)

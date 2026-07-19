@@ -164,6 +164,7 @@
                                                                         <th x-show="((getParameter('status')=='dn' || getParameter('status')=='yesterday'))">Waktu DN</th>
                                                                         <th>Status</th>
                                                                         <th>Waktu Antri</th>
+                                                                        <th>Jenis Kendaraan</th>
                                                                         <th>DN</th>
                                                                     </tr>
                                                                 </thead>
@@ -184,6 +185,7 @@
                                                                             <td x-show="((getParameter('status')=='dn'||getParameter('status')=='yesterday'))" x-text="formatTanggalIndonesia(delivery.WaktuDN)"></td>
                                                                             <td x-text="delivery.Status"></td>
                                                                             <td x-text="formatTanggalIndonesia(delivery.WaktuAntri)"></td>
+                                                                            <td x-text="delivery.JenisKendaraan"></td>
                                                                             <td x-text="delivery.NoDN"></td>
                                                                         </tr>
                                                                     </template>
@@ -336,6 +338,9 @@
             if(getStatus=="belumtimbang2"){
                 url=serverHosting + "/deliveryIML/belumtimbang2/PM3"
             }
+            if(getStatus=="parkirdco"){
+                url=serverHosting + "/deliveryIML/parkirdco/PM3"
+            }
             Alpine.store('globVar').tableTitle = getStatus
         }
 
@@ -358,7 +363,7 @@
                     }) 
                     .then(data => {
                         let respon = data.data
-                        if(getStatus=="belumtimbang2"){
+                        if(getStatus=="belumtimbang2" || getStatus=="parkirdco"){
 
                             // Example Usage:
                             
@@ -394,18 +399,6 @@
                             //console.log(updatedList);
                             
                         }
-                        /*
-                        this.dataGI = respon.gi.filter(item => {
-                            let tanggal = new Date(dateYMD(item.WaktuAntri)).getTime();
-                            return tanggal >= new Date(dateYMD(hariIni())).getTime() &&
-                            tanggal <= new Date(getTomorrow(1)).getTime() && 
-                            item.Status === 'gi' })
-                        this.dataBatal = respon.batal.filter(item => {
-                            let tanggal = new Date(dateYMD(item.WaktuAntri)).getTime();
-                            return tanggal >= new Date(dateYMD(hariIni())).getTime() &&
-                            tanggal <= new Date(getTomorrow(1)).getTime() && 
-                            item.Status === 'batal' })
-                        */
                        this.dataDelivery = respon
                         console.log(respon);
                     })                    
@@ -416,7 +409,8 @@
                         // Tangani error di sini
                     })
                     .finally(() => {
-                        Alpine.store('globVar').isLoading = false
+                        
+                    Alpine.store('globVar').isLoading = false
                     });
                 },
             }
@@ -475,6 +469,9 @@
             break;
         case "belumtimbang2":
             Alpine.store('globVar').tableTitle = "Belum Timbang 2"
+            break;
+        case "parkirdco":
+            Alpine.store('globVar').tableTitle = "Parkir DCO"
             break;
         default:
             Alpine.store('globVar').tableTitle = "List Delivery"
