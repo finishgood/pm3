@@ -367,8 +367,7 @@
                     
                     try{
                         
-                        //let url = serverHosting + "/deliveryIML/detail"
-                        let url = "http://localhost:8080" + "/deliveryIML/detail"
+                        let url = serverHosting + "/deliveryIML/detail"
                         let postBody = { 
                                     "tglFrom": this.tglFrom,
                                     "tglTo": this.tglTo,
