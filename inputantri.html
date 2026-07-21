@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Daftar Antrian Truk</title>
+<script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+<link rel="icon" href="assets/images/favicon.png" type="image/x-icon">
+<!-- Google font-->     <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet">
+<!-- Required Fremwork -->
+<link rel="stylesheet" type="text/css" href="assets/css/bootstrap/css/bootstrap.min.css">
+<!-- waves.css -->
+<link rel="stylesheet" href="assets/pages/waves/css/waves.min.css" type="text/css" media="all">
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="assets/icon/themify-icons/themify-icons.css">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="assets/icon/icofont/css/icofont.css">
+<!-- Font Awesome -->
+<link rel="stylesheet" type="text/css" href="assets/icon/font-awesome/css/font-awesome.min.css">
+<!-- Notification.css -->
+<link rel="stylesheet" type="text/css" href="assets/pages/notification/notification.css">
+<!-- Animate.css -->
+<link rel="stylesheet" type="text/css" href="assets/css/animate.css/css/animate.css">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="assets/css/style.css">
+
+<link rel="stylesheet" type="text/css" href="assets/css/jquery.mCustomScrollbar.css">
+<script type="text/javascript" src="assets/js/jquery/jquery.min.js"></script>     
+<script type="text/javascript" src="assets/js/jquery-ui/jquery-ui.min.js "></script>  
+<style>
+  video, canvas { max-width: 100%; border: 1px solid #ccc; }
+  pre { background: #f4f4f4; padding: 10px; white-space: pre-wrap; }
+</style>
+</head>
+<body>
+<div x-data="ocrApp()">
+   
+  <div class="card">
+      <div class="card-header">
+          <h4>PM3 Finished Goods Warehouse</h4>
+      </div>
+      <div class="card-block">
+          <h4 class="sub-title">Pendaftaran Antrian Muat Truk</h4>
+          <div class="form-group row justify-content-center align-items-center" x-init="initCamera()">
+          <div class="col-sm-4">
+
+            <!-- Live camera preview -->
+            <video x-ref="video" autoplay playsinline></video>
+            <br>
+          </div>
+          <div class="col-sm-2">
+            <!-- Capture button -->
+            <button @click="captureFrame" :disabled="loading" x-text="ocrText" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+            </button>
+            <button type="button" x-bind:disabled="submitDisable" @click="submitForm()" class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">
+                  
+                  Simpan
+              </button>
+          </div>
+          <div class="col-md-4">
+              
+            <!-- Canvas (hidden) for frame capture -->
+            <canvas x-ref="canvas" ></canvas>
+              
+            </div>
+        </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">No IML</label>
+              <div class="col-sm-4">
+                  <input id="txtNoIML" type="text" class="form-control">
+              </div>
+              
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">No DN</label>
+              <div class="col-sm-4">
+                  <input id="txtNoDN" readonly type="text" x-model="dn" class="form-control">
+              </div>
+              <label class="col-sm-2 col-form-label">Nopol</label>
+              <div class="col-sm-4">
+                  <input id="txtNopol" readonly type="text" x-model="nopol" class="form-control">
+              </div>
+          </div>
+          
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nama Supir</label>
+              <div class="col-sm-10">
+                  <input id="txtNamaSupir" readonly type="text" x-model="supir" class="form-control">
+              </div>
+          </div>
+              <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nama Expedisi</label>
+              <div class="col-sm-10">
+                  <input id="txtEkspedisi" readonly type="text" x-model="ekspedisi" class="form-control">
+              </div>
+          </div>
+          <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Nama Customer</label>
+              <div class="col-sm-10">
+                  <input id="txtCustomer" readonly type="text" x-model="customer" class="form-control">
+              </div>
+          </div>
+
+          <div class="form-group row">
+              
+
+              
+          </div>
+    </div>
+</div>
+
+<script>
+function ocrApp() {
+  return {
+    video: null,
+    canvas: null,
+    ocrText: 'Capture',
+    loading: false,
+    customer: "",
+    ekspedisi: "",
+    dn: "",
+    nopol: "",
+    supir: "",
+    noIML: "",
+    submitDisable: true,
+
+    async initCamera() {
+      try {
+        this.video = this.$refs.video;
+        this.canvas = this.$refs.canvas;
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        this.video.srcObject = stream;
+      } catch (err) {
+        alert('Error accessing camera: ' + err.message);
+      }
+    },
+
+    async captureFrame() {
+      if (!this.video) return;
+      this.loading = true;
+      this.ocrText = 'Proccessing';
+
+      // Draw current video frame to canvas
+      const ctx = this.canvas.getContext('2d');
+      this.canvas.width = this.video.videoWidth;
+      this.canvas.height = this.video.videoHeight;
+      ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      ctx.drawImage(this.video, 0, 0);
+
+      // Convert canvas to image data URL
+      const imageData = this.canvas.toDataURL('image/png');
+      /*
+      try {
+        // Run OCR with Tesseract.js
+        const result = await Tesseract.recognize(imageData, 'eng', {
+          logger: m => console.log(m) // progress logs
+        });
+        //this.ocrText = result.data.text.trim();
+        this.ocrText = "Capture"
+      } catch (err) {
+        this.ocrText = 'OCR Error: ' + err.message;
+      } finally {
+        this.loading = false;
+      }
+        */
+       try {
+        const { data: { text } } = await Tesseract.recognize(
+          imageData,
+          'eng', // Change to 'ind' for Indonesian, etc.
+          {
+            logger: m => {
+                        if (m.status === 'recognizing text') {
+                            //document.getElementById('output').textContent = `Recognizing: ${Math.round(m.progress * 100)}%`;
+                            console.log(m)
+                        }
+                    }
+          }
+        );
+            this.customer = this.extractField(text, 'Customer');
+            this.ekspedisi = this.extractField(text, 'Ekspedisi');
+            this.dn = this.extractField(text, 'DM #');
+            this.nopol = this.extractField(text, 'NOPOL');
+            this.supir = this.extractField(text, 'Nama Sopir');
+            this.noIML = this.extractNoIML(text)
+
+            console.log("\n--- Extracted Fields ---");
+            console.log("Customer:", this.customer || "Not found");
+            console.log("Ekspedisi:", this.ekspedisi || "Not found");
+            console.log("No DN:", this.dn || "Not found");
+            console.log("No Pol:", this.nopol || "Not found");
+            console.log("Nama:", this.supir || "Not found");
+            console.log("NoIML:", this.noIML || "Not found");
+      } catch (err) {
+        //document.getElementById('output').textContent = "Error: " + err.message;
+        console.log(err)
+      } finally {
+        this.ocrText = 'Capture';
+      }
+    },
+
+    // Function to extract a specific field from OCR text
+    extractField(text, fieldName) {
+        // Example: Extract "Invoice Number: 12345"
+        const regex = new RegExp(`${fieldName}\\s*[:\\-]?\\s*(.+)`, 'i');
+        const match = text.match(regex);
+        return match ? match[1].trim() : null;
+    },
+
+    extractNoIML(text) {
+        // Example: Extract "Invoice Number: 12345"
+        const regex = /\b44[0-9]*/g;
+        const match = text.match(regex);
+        return match ? match[0] : null;
+    },
+    
+  };
+}
+</script>
+
+</body>
+</html>
