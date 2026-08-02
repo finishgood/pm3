@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finish Good IKK Pallet Drawing</title>
+  <!-- Tailwind CSS & Alpine.js CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 p-4 md:p-6" x-data="palletApp()" x-init="initApp()">
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- LEFT PANEL: CONTROLS & INPUTS -->
+    <div class="lg:col-span-4 bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+      <h2 class="text-xl font-bold text-slate-900 border-b pb-2">Truck & Weight Specs</h2>
+
+      <!-- Truck Specs -->
+      <div>
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Truck Dimensions (cm)</h3>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="text-xs text-slate-500 block">Length</label>
+            <input type="number" x-model.number="truck.length" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block">Width</label>
+            <input type="number" x-model.number="truck.width" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block">Height</label>
+            <input type="number" x-model.number="truck.height" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+        </div>
+      </div>
+
+      <!-- Weight Limits -->
+      <div>
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Weight Limits (kg)</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-xs text-slate-500 block">Max Payload</label>
+            <input type="number" x-model.number="truck.maxPayload" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block">Front Axle Limit</label>
+            <input type="number" x-model.number="truck.maxFrontAxle" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-slate-200">
+
+      <!-- Pallet Input List -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Pallet Cargo Types</h3>
+          <button @click="addPallet()" class="text-xs text-blue-600 font-semibold hover:underline">+ Add Type</button>
+        </div>
+
+        <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+          <template x-for="(p, index) in palletTypes" :key="index">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 relative space-y-2">
+              <button @click="removePallet(index)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-sm">✕</button>
+              
+              <div>
+                <label class="text-xs text-slate-400 block">Name</label>
+                <input type="text" x-model="p.name" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+              </div>
+
+              <div class="grid grid-cols-4 gap-1.5 text-xs">
+                <div>
+                  <label class="text-slate-400 block">L (cm)</label>
+                  <input type="number" x-model.number="p.length" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+                <div>
+                  <label class="text-slate-400 block">W (cm)</label>
+                  <input type="number" x-model.number="p.width" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+                <div>
+                  <label class="text-slate-400 block">H (cm)</label>
+                  <input type="number" x-model.number="p.height" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+                <div>
+                  <label class="text-slate-400 block">Kg/ea</label>
+                  <input type="number" x-model.number="p.weight" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+              </div>
+
+              <div class="flex items-center justify-between text-xs pt-1">
+                <div class="w-1/2">
+                  <label class="text-slate-400 block">Qty</label>
+                  <input type="number" x-model.number="p.quantity" @input="calculate()" class="w-full border rounded px-2 py-1">
+                </div>
+                <label class="flex items-center space-x-1 mt-3 cursor-pointer">
+                  <input type="checkbox" x-model="p.allowRotation" @change="calculate()" class="rounded">
+                  <span class="text-slate-600">Rotate</span>
+                </label>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: DASHBOARD & CANVAS -->
+    <div class="lg:col-span-8 space-y-4">
+      
+      <!-- Notifications / Warning Banners -->
+      <template x-if="alerts.length > 0">
+        <div class="space-y-2">
+          <template x-for="(alert, i) in alerts" :key="i">
+            <div :class="{
+              'bg-red-50 border-red-300 text-red-800': alert.type === 'danger',
+              'bg-amber-50 border-amber-300 text-amber-800': alert.type === 'warning',
+              'bg-emerald-50 border-emerald-300 text-emerald-800': alert.type === 'success'
+            }" class="p-3 border rounded-lg text-sm font-medium flex items-center justify-between">
+              <span x-text="alert.message"></span>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- Metrics Bar -->
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-3">
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Total Weight</div>
+          <div class="text-base font-bold text-slate-800" x-text="`${metrics.totalWeight} / ${truck.maxPayload} kg`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Front Axle Load</div>
+          <div class="text-base font-bold" :class="metrics.frontAxleWeight > truck.maxFrontAxle ? 'text-red-600' : 'text-slate-800'" x-text="`${metrics.frontAxleWeight} kg`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Rear Axles Load</div>
+          <div class="text-base font-bold text-slate-800" x-text="`${metrics.rearAxlesWeight} kg`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Center of Gravity</div>
+          <div class="text-base font-bold text-slate-800" x-text="`${metrics.cgPercentage}%`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center col-span-2 md:col-span-1">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Packed / Unpacked</div>
+          <div class="text-base font-bold text-slate-800" x-text="`${metrics.packedCount} / ${metrics.unpackedCount}`"></div>
+        </div>
+      </div>
+
+      <!-- View Buttons & Canvas -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <div class="flex space-x-2 mb-4">
+          <button @click="setView('top')" :class="view === 'top' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="flex-1 py-2 rounded-lg text-sm font-semibold transition">
+            Top View (X-Z Footprint)
+          </button>
+          <button @click="setView('left')" :class="view === 'left' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="flex-1 py-2 rounded-lg text-sm font-semibold transition">
+            Left View (Z-Y Elevation)
+          </button>
+        </div>
+
+        <div class="flex justify-center items-center bg-slate-50 rounded-lg border border-slate-200 p-4">
+          <canvas id="stageCanvas" width="750" height="400"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const COLOR_PALETTE = ['#3b82f6', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#06b6d4'];
+
+    function palletApp() {
+      return {
+        view: 'top',
+        alerts: [],
+        truck: {
+          length: 1200,
+          width: 240,
+          height: 240,
+          maxPayload: 22000,   // Max Gross Payload Limit (kg)
+          maxFrontAxle: 8000   // Max Steer Axle Limit (kg)
+        },
+        palletTypes: [
+          { name: 'Heavy Euro', length: 120, width: 80, height: 140, weight: 850, quantity: 18, allowRotation: true },
+          { name: 'Standard Light', length: 120, width: 100, height: 100, weight: 400, quantity: 10, allowRotation: true }
+        ],
+        metrics: {
+          totalWeight: 0,
+          frontAxleWeight: 0,
+          rearAxlesWeight: 0,
+          cgPercentage: 50,
+          packedCount: 0,
+          unpackedCount: 0
+        },
+        packedItems: [],
+
+        initApp() {
+          this.calculate();
+        },
+
+        setView(v) {
+          this.view = v;
+          this.renderCanvas();
+        },
+
+        addPallet() {
+          this.palletTypes.push({
+            name: 'New Pallet',
+            length: 120,
+            width: 80,
+            height: 120,
+            weight: 500,
+            quantity: 4,
+            allowRotation: true
+          });
+          this.calculate();
+        },
+
+        removePallet(index) {
+          this.palletTypes.splice(index, 1);
+          this.calculate();
+        },
+
+        calculate() {
+          // Flatten items
+          let itemsToPack = [];
+          this.palletTypes.forEach((p, idx) => {
+            const color = COLOR_PALETTE[idx % COLOR_PALETTE.length];
+            for (let i = 0; i < (p.quantity || 0); i++) {
+              itemsToPack.push({
+                id: `${p.name}_${i + 1}`,
+                length: Number(p.length),
+                width: Number(p.width),
+                height: Number(p.height),
+                weight: Number(p.weight),
+                allowRotation: p.allowRotation,
+                color: color
+              });
+            }
+          });
+
+          // Sort by footprint area (W x L) descending
+          itemsToPack.sort((a, b) => (b.length * b.width) - (a.length * a.width));
+
+          const packed = [];
+          const unpacked = [];
+          let currentWeight = 0;
+          let placementPoints = [{ x: 0, y: 0, z: 0 }];
+
+          const overlaps = (a, b) => (
+            a.x < b.x + b.w && a.x + a.w > b.x &&
+            a.y < b.y + b.h && a.y + a.h > b.y &&
+            a.z < b.z + b.l && a.z + a.l > b.z
+          );
+
+          const isValid = (candidate) => {
+            if (
+              candidate.x + candidate.w > this.truck.width ||
+              candidate.y + candidate.h > this.truck.height ||
+              candidate.z + candidate.l > this.truck.length
+            ) return false;
+
+            for (const item of packed) {
+              if (overlaps(candidate, item)) return false;
+            }
+            return true;
+          };
+
+          // Placement loop with payload weight ceiling check
+          for (const item of itemsToPack) {
+            let placed = false;
+            placementPoints.sort((a, b) => a.z - b.z || a.y - b.y || a.x - b.x);
+
+            // Payload limit enforcement
+            if (currentWeight + item.weight > this.truck.maxPayload) {
+              unpacked.push(item);
+              continue;
+            }
+
+            for (let i = 0; i < placementPoints.length; i++) {
+              const pt = placementPoints[i];
+              const orientations = [{ w: item.width, l: item.length, h: item.height, rot: 0 }];
+              
+              if (item.allowRotation && item.width !== item.length) {
+                orientations.push({ w: item.length, l: item.width, h: item.height, rot: 90 });
+              }
+
+              for (const orient of orientations) {
+                const candidate = {
+                  id: item.id,
+                  weight: item.weight,
+                  color: item.color,
+                  x: pt.x,
+                  y: pt.y,
+                  z: pt.z,
+                  w: orient.w,
+                  l: orient.l,
+                  h: orient.h,
+                  rotation: orient.rot
+                };
+
+                if (isValid(candidate)) {
+                  packed.push(candidate);
+                  currentWeight += item.weight;
+                  placed = true;
+
+                  placementPoints.push(
+                    { x: pt.x + orient.w, y: pt.y, z: pt.z },
+                    { x: pt.x, y: pt.y, z: pt.z + orient.l },
+                    { x: pt.x, y: pt.y + orient.h, z: pt.z }
+                  );
+
+                  placementPoints.splice(i, 1);
+                  break;
+                }
+              }
+              if (placed) break;
+            }
+            if (!placed) unpacked.push(item);
+          }
+
+          // AXLE & CENTER OF GRAVITY CALCULATIONS
+          // Center of Gravity (Z axis) = Sum(Position_Z * Weight) / Total_Weight
+          let totalMomentZ = 0;
+          packed.forEach(p => {
+            const centerZ = p.z + (p.l / 2);
+            totalMomentZ += centerZ * p.weight;
+          });
+
+          const cgZ = currentWeight > 0 ? (totalMomentZ / currentWeight) : (this.truck.length / 2);
+          const cgPct = ((cgZ / this.truck.length) * 100).toFixed(1);
+
+          // Simple Axle Distribution Model:
+          // Front Axle Weight Ratio = 1 - (CG_Distance / Truck_Length)
+          const frontAxleRatio = 1 - (cgZ / this.truck.length);
+          const frontAxleMass = Math.round(currentWeight * frontAxleRatio);
+          const rearAxlesMass = Math.round(currentWeight * (1 - frontAxleRatio));
+
+          this.metrics = {
+            totalWeight: currentWeight,
+            frontAxleWeight: frontAxleMass,
+            rearAxlesWeight: rearAxlesMass,
+            cgPercentage: Number(cgPct),
+            packedCount: packed.length,
+            unpackedCount: unpacked.length
+          };
+
+          this.packedItems = packed;
+          this.evaluateAlerts(unpacked.length);
+          this.renderCanvas();
+        },
+
+        evaluateAlerts(unpackedCount) {
+          this.alerts = [];
+
+          if (this.metrics.totalWeight >= this.truck.maxPayload) {
+            this.alerts.push({
+              type: 'danger',
+              message: `⚠️ Payload capacity exceeded (${this.truck.maxPayload} kg limit). ${unpackedCount} item(s) could not be loaded.`
+            });
+          }
+
+          if (this.metrics.frontAxleWeight > this.truck.maxFrontAxle) {
+            this.alerts.push({
+              type: 'danger',
+              message: `⚠️ Front steer axle overload! Current: ${this.metrics.frontAxleWeight} kg, Limit: ${this.truck.maxFrontAxle} kg.`
+            });
+          }
+
+          if (this.metrics.cgPercentage < 40 || this.metrics.cgPercentage > 60) {
+            this.alerts.push({
+              type: 'warning',
+              message: `⚠️ Unbalanced load profile! Center of Gravity is at ${this.metrics.cgPercentage}%. Keep between 45% - 55% for safe steering stability.`
+            });
+          }
+
+          if (this.alerts.length === 0) {
+            this.alerts.push({
+              type: 'success',
+              message: `✅ Optimal packing! Payload and axle load distributions are within safety parameters.`
+            });
+          }
+        },
+
+        renderCanvas() {
+          const canvas = document.getElementById('stageCanvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const margin = 45;
+          const drawWidth = canvas.width - (margin * 2);
+          const drawHeight = canvas.height - (margin * 2);
+          const truck = this.truck;
+
+          if (this.view === 'top') {
+            const scale = Math.min(drawWidth / truck.length, drawHeight / truck.width);
+            const offsetX = margin;
+            const offsetY = margin;
+
+            // Truck Container Outline
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(offsetX, offsetY, truck.length * scale, truck.width * scale);
+
+            // Labels
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.fillText(`TOP VIEW — Front Cabin ← | → Rear Doors`, offsetX, offsetY - 12);
+
+            // Center of Gravity (CG) Line
+            const cgX = offsetX + ((this.metrics.cgPercentage / 100) * truck.length * scale);
+            ctx.strokeStyle = '#ef4444';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(cgX, offsetY - 5);
+            ctx.lineTo(cgX, offsetY + (truck.width * scale) + 5);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#ef4444';
+            ctx.fillText(`CG (${this.metrics.cgPercentage}%)`, cgX - 18, offsetY + (truck.width * scale) + 18);
+
+            // Pallet Footprints
+            this.packedItems.forEach(p => {
+              const px = offsetX + (p.z * scale);
+              const py = offsetY + (p.x * scale);
+              const pw = p.l * scale;
+              const ph = p.w * scale;
+
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = p.y === 0 ? 0.85 : 0.45;
+              ctx.fillRect(px, py, pw, ph);
+
+              ctx.globalAlpha = 1.0;
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(px, py, pw, ph);
+            });
+
+          } else {
+            // LEFT SIDE VIEW
+            const scale = Math.min(drawWidth / truck.length, drawHeight / truck.height);
+            const offsetX = margin;
+            const offsetY = margin;
+
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(offsetX, offsetY, truck.length * scale, truck.height * scale);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.fillText(`LEFT VIEW — Side Profile Elevation (${truck.length}cm x ${truck.height}cm)`, offsetX, offsetY - 12);
+
+            // Sort by depth so items render clearly
+            const sorted = [...this.packedItems].sort((a, b) => b.x - a.x);
+
+            sorted.forEach(p => {
+              const px = offsetX + (p.z * scale);
+              const py = offsetY + ((truck.height - p.y - p.h) * scale);
+              const pw = p.l * scale;
+              const ph = p.h * scale;
+
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = 0.8;
+              ctx.fillRect(px, py, pw, ph);
+
+              ctx.globalAlpha = 1.0;
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(px, py, pw, ph);
+            });
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Finish Good IKK Paper Roll Drawing</title>
+  <!-- Tailwind CSS & Alpine.js CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body class="bg-slate-100 text-slate-800 p-4 md:p-6" x-data="paperRollApp()" x-init="initApp()">
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-6">
+    
+    <!-- LEFT PANEL: CONTROLS & INPUTS -->
+    <div class="lg:col-span-4 bg-white border border-slate-200 rounded-xl p-5 shadow-sm space-y-5">
+      <h2 class="text-xl font-bold text-slate-900 border-b pb-2">Truck & Paper Roll Specs</h2>
+
+      <!-- Truck Specs -->
+      <div>
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Truck Dimensions (cm)</h3>
+        <div class="grid grid-cols-3 gap-2">
+          <div>
+            <label class="text-xs text-slate-500 block">Length</label>
+            <input type="number" x-model.number="truck.length" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block">Width</label>
+            <input type="number" x-model.number="truck.width" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block">Height</label>
+            <input type="number" x-model.number="truck.height" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+        </div>
+      </div>
+
+      <!-- Weight Limits -->
+      <div>
+        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Weight Limits (kg)</h3>
+        <div class="grid grid-cols-2 gap-2">
+          <div>
+            <label class="text-xs text-slate-500 block">Max Payload</label>
+            <input type="number" x-model.number="truck.maxPayload" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+          <div>
+            <label class="text-xs text-slate-500 block">Front Axle Limit</label>
+            <input type="number" x-model.number="truck.maxFrontAxle" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+          </div>
+        </div>
+      </div>
+
+      <hr class="border-slate-200">
+
+      <!-- Paper Roll Input List -->
+      <div>
+        <div class="flex justify-between items-center mb-2">
+          <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Paper Roll Types</h3>
+          <button @click="addRoll()" class="text-xs text-blue-600 font-semibold hover:underline">+ Add Type</button>
+        </div>
+
+        <div class="space-y-3 max-h-80 overflow-y-auto pr-1">
+          <template x-for="(r, index) in rollTypes" :key="index">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-3 relative space-y-2">
+              <button @click="removeRoll(index)" class="absolute top-2 right-2 text-red-500 hover:text-red-700 font-bold text-sm">✕</button>
+              
+              <div>
+                <label class="text-xs text-slate-400 block">Name</label>
+                <input type="text" x-model="r.name" @input="calculate()" class="w-full border rounded px-2 py-1 text-sm">
+              </div>
+
+              <div class="grid grid-cols-4 gap-1.5 text-xs">
+                <div>
+                  <label class="text-slate-400 block">Dia (cm)</label>
+                  <input type="number" x-model.number="r.diameter" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+                <div>
+                  <label class="text-slate-400 block">Width/H</label>
+                  <input type="number" x-model.number="r.width" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+                <div>
+                  <label class="text-slate-400 block">Kg/ea</label>
+                  <input type="number" x-model.number="r.weight" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+                <div>
+                  <label class="text-slate-400 block">Qty</label>
+                  <input type="number" x-model.number="r.quantity" @input="calculate()" class="w-full border rounded px-1 py-1">
+                </div>
+              </div>
+            </div>
+          </template>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT PANEL: DASHBOARD & CANVAS -->
+    <div class="lg:col-span-8 space-y-4">
+      
+      <!-- Notifications / Warning Banners -->
+      <template x-if="alerts.length > 0">
+        <div class="space-y-2">
+          <template x-for="(alert, i) in alerts" :key="i">
+            <div :class="{
+              'bg-red-50 border-red-300 text-red-800': alert.type === 'danger',
+              'bg-amber-50 border-amber-300 text-amber-800': alert.type === 'warning',
+              'bg-emerald-50 border-emerald-300 text-emerald-800': alert.type === 'success'
+            }" class="p-3 border rounded-lg text-sm font-medium flex items-center justify-between">
+              <span x-text="alert.message"></span>
+            </div>
+          </template>
+        </div>
+      </template>
+
+      <!-- Metrics Bar -->
+      <div class="grid grid-cols-2 md:grid-cols-6 gap-3">
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Total Weight</div>
+          <div class="text-sm font-bold text-slate-800" x-text="`${metrics.totalWeight} / ${truck.maxPayload} kg`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Front Axle Load</div>
+          <div class="text-sm font-bold" :class="metrics.frontAxleWeight > truck.maxFrontAxle ? 'text-red-600' : 'text-slate-800'" x-text="`${metrics.frontAxleWeight} kg`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Rear Axles Load</div>
+          <div class="text-sm font-bold text-slate-800" x-text="`${metrics.rearAxlesWeight} kg`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Pattern</div>
+          <div class="text-sm font-bold text-slate-800" x-text="metrics.pattern"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Center of Gravity</div>
+          <div class="text-sm font-bold text-slate-800" x-text="`${metrics.cgPercentage}%`"></div>
+        </div>
+
+        <div class="bg-white border border-slate-200 rounded-lg p-3 text-center col-span-2 md:col-span-1">
+          <div class="text-xs text-slate-400 uppercase font-semibold">Packed / Unpacked</div>
+          <div class="text-sm font-bold text-slate-800" x-text="`${metrics.packedCount} / ${metrics.unpackedCount}`"></div>
+        </div>
+      </div>
+
+      <!-- View Buttons & Canvas -->
+      <div class="bg-white border border-slate-200 rounded-xl p-4 shadow-sm">
+        <div class="flex space-x-2 mb-4">
+          <button @click="setView('top')" :class="view === 'top' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="flex-1 py-2 rounded-lg text-sm font-semibold transition">
+            Top View (Circle Footprint)
+          </button>
+          <button @click="setView('left')" :class="view === 'left' ? 'bg-blue-600 text-white' : 'bg-slate-100 text-slate-600'" class="flex-1 py-2 rounded-lg text-sm font-semibold transition">
+            Left View (Side Elevation)
+          </button>
+        </div>
+
+        <div class="flex justify-center items-center bg-slate-50 rounded-lg border border-slate-200 p-4">
+          <canvas id="stageCanvas" width="750" height="420"></canvas>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const COLOR_PALETTE = ['#0284c7', '#059669', '#d97706', '#7c3aed', '#db2777', '#0891b2'];
+
+    function paperRollApp() {
+      return {
+        view: 'top',
+        alerts: [],
+        truck: {
+          length: 1360,
+          width: 248,
+          height: 270,
+          maxPayload: 24000,   // Max Gross Payload Limit (kg)
+          maxFrontAxle: 8500   // Max Steer Axle Limit (kg)
+        },
+        rollTypes: [
+          { name: 'Kraft Roll A', diameter: 100, width: 125, weight: 850, quantity: 28 },
+          { name: 'Newsprint Roll B', diameter: 80, width: 100, weight: 450, quantity: 10 }
+        ],
+        metrics: {
+          totalWeight: 0,
+          frontAxleWeight: 0,
+          rearAxlesWeight: 0,
+          cgPercentage: 50,
+          pattern: 'Staggered',
+          packedCount: 0,
+          unpackedCount: 0
+        },
+        packedItems: [],
+
+        initApp() {
+          this.calculate();
+        },
+
+        setView(v) {
+          this.view = v;
+          this.renderCanvas();
+        },
+
+        addRoll() {
+          this.rollTypes.push({
+            name: 'Standard Roll',
+            diameter: 80,
+            width: 100,
+            weight: 500,
+            quantity: 10
+          });
+          this.calculate();
+        },
+
+        removeRoll(index) {
+          this.rollTypes.splice(index, 1);
+          this.calculate();
+        },
+
+        calculate() {
+          // Expand items
+          let itemsToPack = [];
+          this.rollTypes.forEach((r, idx) => {
+            const color = COLOR_PALETTE[idx % COLOR_PALETTE.length];
+            for (let i = 0; i < (r.quantity || 0); i++) {
+              itemsToPack.push({
+                id: `${r.name}_${i + 1}`,
+                diameter: Number(r.diameter),
+                radius: Number(r.diameter) / 2,
+                width: Number(r.width), // Vertical standing height
+                weight: Number(r.weight),
+                color: color
+              });
+            }
+          });
+
+          if (itemsToPack.length === 0) {
+            this.resetMetrics();
+            return;
+          }
+
+          const primaryRadius = itemsToPack[0].radius;
+          const primaryWidth = itemsToPack[0].width;
+          const maxLevels = Math.floor(this.truck.height / primaryWidth);
+
+          // Grid Layout strategy (Straight rows)
+          const gridCols = Math.floor(this.truck.width / (primaryRadius * 2));
+          const gridRows = Math.floor(this.truck.length / (primaryRadius * 2));
+          const gridCapacity = gridCols * gridRows;
+
+          // Staggered Hexagonal Layout strategy (60-degree offset)
+          const hexCols = gridCols;
+          const rowPitch = primaryRadius * Math.sqrt(3);
+          const hexRows = 1 + Math.floor((this.truck.length - (primaryRadius * 2)) / rowPitch);
+
+          let hexCapacity = 0;
+          for (let r = 0; r < hexRows; r++) {
+            if (r % 2 === 1 && (this.truck.width - (primaryRadius * 2)) < primaryRadius) {
+              hexCapacity += (hexCols - 1);
+            } else {
+              hexCapacity += hexCols;
+            }
+          }
+
+          const useHex = hexCapacity >= gridCapacity;
+          const patternName = useHex ? 'Staggered' : 'Grid';
+
+          // Generate coordinates
+          const positions = [];
+          if (useHex) {
+            for (let r = 0; r < hexRows; r++) {
+              const z = primaryRadius + (r * rowPitch);
+              const isOdd = r % 2 === 1;
+              const xStart = isOdd ? primaryRadius * 2 : primaryRadius;
+              const colsInRow = isOdd && (this.truck.width - (primaryRadius * 2) < primaryRadius) ? hexCols - 1 : hexCols;
+
+              for (let c = 0; c < colsInRow; c++) {
+                const x = xStart + (c * primaryRadius * 2);
+                if (x + primaryRadius <= this.truck.width && z + primaryRadius <= this.truck.length) {
+                  positions.push({ x, z });
+                }
+              }
+            }
+          } else {
+            for (let r = 0; r < gridRows; r++) {
+              const z = primaryRadius + (r * primaryRadius * 2);
+              for (let c = 0; c < gridCols; c++) {
+                const x = primaryRadius + (c * primaryRadius * 2);
+                positions.push({ x, z });
+              }
+            }
+          }
+
+          const packed = [];
+          const unpacked = [];
+          let currentWeight = 0;
+          let itemIdx = 0;
+
+          // Pack layers while respecting maximum payload weight
+          for (let lvl = 0; lvl < maxLevels; lvl++) {
+            const y = lvl * primaryWidth;
+
+            for (const pos of positions) {
+              if (itemIdx < itemsToPack.length) {
+                const item = itemsToPack[itemIdx];
+
+                if (currentWeight + item.weight <= this.truck.maxPayload) {
+                  currentWeight += item.weight;
+                  packed.push({
+                    ...item,
+                    x: pos.x,
+                    z: pos.z,
+                    y: y
+                  });
+                  itemIdx++;
+                } else {
+                  break;
+                }
+              }
+            }
+          }
+
+          // Remaining unplaced items due to payload or space limits
+          while (itemIdx < itemsToPack.length) {
+            unpacked.push(itemsToPack[itemIdx++]);
+          }
+
+          // AXLE & CENTER OF GRAVITY CALCULATIONS
+          let totalMomentZ = 0;
+          packed.forEach(p => {
+            totalMomentZ += p.z * p.weight;
+          });
+
+          const cgZ = currentWeight > 0 ? (totalMomentZ / currentWeight) : (this.truck.length / 2);
+          const cgPct = ((cgZ / this.truck.length) * 100).toFixed(1);
+
+          // Front Steer Axle vs Rear Drive/Trailer Axles load distribution
+          const frontAxleRatio = 1 - (cgZ / this.truck.length);
+          const frontAxleMass = Math.round(currentWeight * frontAxleRatio);
+          const rearAxlesMass = Math.round(currentWeight * (1 - frontAxleRatio));
+
+          this.metrics = {
+            totalWeight: currentWeight,
+            frontAxleWeight: frontAxleMass,
+            rearAxlesWeight: rearAxlesMass,
+            cgPercentage: Number(cgPct),
+            pattern: patternName,
+            packedCount: packed.length,
+            unpackedCount: unpacked.length
+          };
+
+          this.packedItems = packed;
+          this.evaluateAlerts(unpacked.length);
+          this.renderCanvas();
+        },
+
+        resetMetrics() {
+          this.metrics = {
+            totalWeight: 0,
+            frontAxleWeight: 0,
+            rearAxlesWeight: 0,
+            cgPercentage: 50,
+            pattern: 'None',
+            packedCount: 0,
+            unpackedCount: 0
+          };
+          this.packedItems = [];
+          this.alerts = [];
+          this.renderCanvas();
+        },
+
+        evaluateAlerts(unpackedCount) {
+          this.alerts = [];
+
+          if (this.metrics.totalWeight >= this.truck.maxPayload) {
+            this.alerts.push({
+              type: 'danger',
+              message: `⚠️ Weight cap reached (${this.truck.maxPayload} kg limit). ${unpackedCount} roll(s) omitted to prevent overload.`
+            });
+          }
+
+          if (this.metrics.frontAxleWeight > this.truck.maxFrontAxle) {
+            this.alerts.push({
+              type: 'danger',
+              message: `⚠️ Steer Axle Overload! Current: ${this.metrics.frontAxleWeight} kg, Limit: ${this.truck.maxFrontAxle} kg.`
+            });
+          }
+
+          if (this.metrics.cgPercentage < 40 || this.metrics.cgPercentage > 60) {
+            this.alerts.push({
+              type: 'warning',
+              message: `⚠️ Unbalanced Weight Profile! Center of Gravity is at ${this.metrics.cgPercentage}%. Maintain 45% - 55% for safe axle balance.`
+            });
+          }
+
+          if (this.alerts.length === 0) {
+            this.alerts.push({
+              type: 'success',
+              message: `✅ Optimal paper roll arrangement! Payload and axle load parameters are balanced.`
+            });
+          }
+        },
+
+        renderCanvas() {
+          const canvas = document.getElementById('stageCanvas');
+          if (!canvas) return;
+          const ctx = canvas.getContext('2d');
+          ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+          const margin = 45;
+          const drawWidth = canvas.width - (margin * 2);
+          const drawHeight = canvas.height - (margin * 2);
+          const truck = this.truck;
+
+          if (this.view === 'top') {
+            const scale = Math.min(drawWidth / truck.length, drawHeight / truck.width);
+            const offsetX = margin;
+            const offsetY = margin;
+
+            // Container Boundary
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(offsetX, offsetY, truck.length * scale, truck.width * scale);
+
+            // Label
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.fillText(`TOP VIEW — Roll Footprint (${this.metrics.pattern} Pattern)`, offsetX, offsetY - 12);
+
+            // Center of Gravity (CG) Line
+            const cgX = offsetX + ((this.metrics.cgPercentage / 100) * truck.length * scale);
+            ctx.strokeStyle = '#ef4444';
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(cgX, offsetY - 5);
+            ctx.lineTo(cgX, offsetY + (truck.width * scale) + 5);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#ef4444';
+            ctx.fillText(`CG (${this.metrics.cgPercentage}%)`, cgX - 18, offsetY + (truck.width * scale) + 18);
+
+            // Circles
+            this.packedItems.forEach(p => {
+              const cx = offsetX + (p.z * scale);
+              const cy = offsetY + (p.x * scale);
+              const r = p.radius * scale;
+
+              ctx.beginPath();
+              ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = p.y === 0 ? 0.85 : 0.45;
+              ctx.fill();
+
+              ctx.globalAlpha = 1.0;
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = 1.5;
+              ctx.stroke();
+
+              // Center core indicator
+              ctx.beginPath();
+              ctx.arc(cx, cy, Math.max(2, r * 0.15), 0, 2 * Math.PI);
+              ctx.fillStyle = '#ffffff';
+              ctx.fill();
+            });
+
+          } else {
+            // LEFT SIDE VIEW
+            const scale = Math.min(drawWidth / truck.length, drawHeight / truck.height);
+            const offsetX = margin;
+            const offsetY = margin;
+
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(offsetX, offsetY, truck.length * scale, truck.height * scale);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '11px sans-serif';
+            ctx.fillText(`LEFT VIEW — Side Profile Elevation (${truck.length}cm x ${truck.height}cm)`, offsetX, offsetY - 12);
+
+            this.packedItems.forEach(p => {
+              const px = offsetX + ((p.z - p.radius) * scale);
+              const py = offsetY + ((truck.height - p.y - p.width) * scale);
+              const pw = (p.diameter) * scale;
+              const ph = p.width * scale;
+
+              ctx.fillStyle = p.color;
+              ctx.globalAlpha = 0.8;
+              ctx.fillRect(px, py, pw, ph);
+
+              ctx.globalAlpha = 1.0;
+              ctx.strokeStyle = '#ffffff';
+              ctx.lineWidth = 1;
+              ctx.strokeRect(px, py, pw, ph);
+            });
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>
