@@ -78,7 +78,7 @@
     getData(getID)
 
     async function getData(id) {
-    const url = "https://fgd.my.id/iml/nomor/"+id;
+    const url = "https://fgd.my.id/selongsong/bynoiml/"+id;
     try {
         const response = await fetch(url);
         if (!response.ok) {
@@ -92,9 +92,9 @@
         document.getElementById("nomor").innerHTML = id
         document.getElementById("nama").innerHTML = result.data.NamaSupir
         document.getElementById("namattd").innerHTML = result.data.NamaSupir
-        document.getElementById("nopol").innerHTML = result.data.Nopol
+        document.getElementById("nopol").innerHTML = result.data.NoPolisi
         document.getElementById("iml").innerHTML = result.data.NoIML
-        document.getElementById("dn").innerHTML = result.data.NoDN
+        document.getElementById("dn").innerHTML = result.data.ReffNum1
         document.getElementById("ekspedisi").innerHTML = result.data.Ekspedisi
         document.getElementById("customer").innerHTML = result.data.Customer
         document.getElementById("qty").innerHTML = result.data.QtySelongsong
