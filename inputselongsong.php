@@ -413,8 +413,8 @@
                     Alpine.store('globVar').isLoading = true
                     
                     try{
-                        let url = "http://localhost:8080/selongsong/bydate"
-                        //let url = serverHosting + "/selongsong/bydate"
+                        //let url = "http://localhost:8080/selongsong/bydate"
+                        let url = serverHosting + "/selongsong/bydate"
                         let postBody = { 
                                     "tglFrom": this.tglFrom,
                                     "tglTo": this.tglTo,
@@ -568,8 +568,8 @@
                         item.Warehouse = this.dataForm.warehouse // Injecting a new key-value property directly
                     });
                     console.log(result)
-                    let url = "http://localhost:8080/selongsong/add"
-                    //let url = serverHosting + "/selongsong/add"
+                    //let url = "http://localhost:8080/selongsong/add"
+                    let url = serverHosting + "/selongsong/add"
                     try {
                         const data = await (await fetch(url, { method: 'POST', 
                             headers: {'Content-Type': 'application/json'},
