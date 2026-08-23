@@ -106,30 +106,11 @@
 <!-- Pre-loader end -->
 <div id="pcoded" class="pcoded">
     <div class="pcoded-overlay-box"></div>
-    <div class="pcoded-container navbar-wrapper">
-        
-        <?php include "navbar.php"; ?>
-    
-        <div class="pcoded-main-container">
-            <div class="pcoded-wrapper">
-                
-
-                
-                <?php include "sidebar.php" ?>
-
-
-                <div class="pcoded-content">
                     <!-- Page-header start -->
                     
                     <!-- Page-header end -->
-                    <div class="pcoded-inner-content">
                         <div class="main-body">
-                            <div class="page-wrapper" x-data="showForklift()" x-init="$refs.txt_noIML.focus()">
-                                    
-
-                                    
-                                    
-                                     <!-- Page body 2 start -->
+                            <div class="page-wrapper" x-data="showForklift()" x-init="$refs.txt_noIML.focus();readForklift();">
                                     <div class="page-body button-page">
                                         <div class="row">
                                             <!-- bootstrap modal start -->
@@ -141,39 +122,46 @@
                                                     </div>
                                                     <div class="card-block">
                                                         <div class="form-group row">
-                                                            <label class="col-sm-12 col-form-label-lg text-center">No IML</label>
+                                                            
+                                                            <label class="col-sm-12 col-form-label-lg text-center">Nomor Forklift</label>
+                                                            <div class="col-sm-12 text-center">
+                                                                    <input id="txt_noForklift" 
+                                                                    x-model="noForklift" 
+                                                                    :readonly="loginforklift"
+                                                                    x-ref="txt_noForklift" 
+                                                                    @keydown.enter.prevent="setForklift();$refs.txt_noIML.focus()"
+                                                                    type="text" class="form-control-lg form-control-info form-control-center">
+                                                            </div>
+                                                            <div class="col-sm-12 text-center" x-show="!loginforklift">
+                                                                <button class="btn btn-primary waves-effect waves-light" @click="setForklift()">Login</button>
+                                                            </div>
+                                                            <div class="col-sm-12 text-center" x-show="loginforklift">
+                                                                <button class="btn btn-info waves-effect waves-light" @click="unSetForklift()">Logout</button>
+                                                            </div>
                                                         </div>
                                                         <div class="form-group row">
+                                                            <label class="col-sm-12 col-form-label-lg text-center">No IML</label>
                                                             <div class="col-sm-12 text-center">
                                                                     <input id="txt_noIML" 
                                                                     x-model="noIML" 
                                                                     x-ref="txt_noIML" 
-                                                                    @keydown.enter.prevent="getIMLData();$refs.txt_noForklift.focus()"
+                                                                    :readonly="!loginforklift"
+                                                                    @keydown.enter.prevent="getIMLData()"
                                                                     type="number" class="form-control-lg form-control-info form-control-center">
                                                             </div>
                                                         </div>
-                                                        <div class="form-group row">
-                                                            <label class="col-sm-12 col-form-label-lg text-center">Nomor Forklift</label>
-                                                        </div>
-                                                        <div class="form-group row">
+                                                        <div class="form-group row" x-show="detailIMLShow">
                                                             <div class="col-sm-12 text-center">
-                                                                    <input id="txt_noForklift" 
-                                                                    x-model="noForklift" 
-                                                                    x-ref="txt_noForklift" 
-                                                                    @keydown.enter.prevent="executeAction()"
-                                                                    type="text" class="form-control-lg form-control-info form-control-center">
-                                                            </div>
-                                                        </div>
-                                                        <div class="form-group row">
-                                                            <div class="col-sm-12 text-center">
-                                                                <h5 x-text="namaDriver"></h5><br />
-                                                                <h5 x-text="nopol"></h5><br />
-                                                                <h5 x-text="jenisKendaraan"></h5><br />
+                                                            <br />
+                                                                <h5>Status : <span x-text="status"></span></h5>
+                                                                <h5>Nama : <span x-text="namaDriver"></span></h5>
+                                                                <h5>Nopol : <span x-text="nopol"></span></h5>
+                                                                <h5><span x-text="customer"></span></h5>
                                                             </div>
                                                         </div>
                                                         <div class="form-group row">
                                                             <div class="col-sm-12 text-center" x-show="btnShow">
-                                                                <button class="btn waves-effect waves-light btn-lg btn-out-dashed" :class="btnClass" @click="executeAction()">
+                                                                <button class="btn waves-effect waves-light btn-lg btn-out-dashed"  x-ref="btn_execute" :class="btnClass" @click="executeAction()">
                                                                     <span class="icofont icofont-save" x-text=btnText></span>
                                                                 </button>
                                                             </div>
@@ -195,16 +183,11 @@
                                  
                             </div>
                         </div>
-                    </div>
-                </div>
                 <!-- Main-body end -->
                 
                 <div id="styleSelector">
                 
                 </div>
-            </div>
-        </div>
-    </div>
 </div>                                            
         
 
@@ -306,6 +289,9 @@
                 namaDriver:"",
                 nopol:"",
                 jenisKendaraan:"",
+                status:"",
+                customer:"",
+                loginforklift: false,
                 clearForm(){
                     this.warehouse = "PM3"
                     this.noIML = ""
@@ -318,6 +304,40 @@
                     this.namaDriver = ""
                     this.nopol = ""
                     this.jenisKendaraan = ""
+                    this.customer = ""
+                    this.status = ""
+                    this.loginforklift = false
+                },
+                setForklift(){
+                    console.log(this.noForklift)
+                    if(this.noForklift == ""){
+                        notify("Masukkan Nomor Forklift","danger")
+                        throw new Error("Masukkan Nomor Forklift")
+                    }
+                    localStorage.setItem('loginforklift', true)
+                    localStorage.setItem('forklift', this.noForklift)
+                    this.noForklift = this.readForklift().forklift
+                    this.loginforklift = this.readForklift().loginforklift
+                    this.$refs.txt_noIML.focus()
+                    
+                },
+                readForklift(){
+                    
+                    this.noForklift = localStorage.getItem('forklift') || ''
+                    this.loginforklift = localStorage.getItem('loginforklift') || false 
+                    
+                    return { forklift: localStorage.getItem('forklift') || '',
+                             loginforklift: localStorage.getItem('loginforklift') || false   }
+                },
+                unSetForklift(){
+                    localStorage.removeItem('forklift')
+                    localStorage.removeItem('loginforklift')
+                    this.clearForm()
+                    this.$refs.txt_noForklift.focus()
+                    
+                    
+                    
+
                 },
                 async getIMLData() {
                     let url = serverHosting+"/deliveryIML/status/"+this.noIML
@@ -329,8 +349,8 @@
                              })).json()
                              console.log(data)
                             if(data.success == true){
-                                if(data.data.status == "dn" || data.data.status == "selesai"){
-                                    throw new Error("IML Sudah selesai")
+                                if(data.data.Status == "dn" || data.data.Status == "selesai"){
+                                    throw new Error(`IML ${this.noIML} Sudah selesai`)
                                 }
                                 //notify("Pendaftaran Berhasil IML "+data.data.NoIML,"success")
                                 this.imlData = data.data
@@ -340,9 +360,13 @@
                                 this.namaDriver = data.data.NamaSupir
                                 this.nopol = data.data.Nopol
                                 this.jenisKendaraan = data.data.JenisKendaraan
+                                this.customer = data.data.Customer
+                                this.status = data.data.Status.toUpperCase()
                                 
                                 this.btnShow = true
-
+                                this.detailIMLShow = true
+                                
+                                this.$refs.btn_execute.focus()
                                
                                 //this.clearForm()
                             } else {
