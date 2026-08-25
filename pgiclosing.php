@@ -184,6 +184,7 @@
                                                                         <th>Plan (MT)</th>
                                                                         <th>Realisasi (MT)</th>
                                                                         <th>Gap (MT)</th>
+                                                                        <th>Tanggal BOC</th>
                                                                         <th>Tanggal Closing</th>
                                                                         <th>Jam Closing</th>
                                                                         <th>PGI</th>
@@ -203,6 +204,7 @@
                                                                             <td x-text="Number(exportData.QtyDNMT).toLocaleString('en-US', {maximumFractionDigits: 2})"></td>
                                                                             <td :class="exportData.QtyGapMT > 0 ? 'text-danger' : ''" x-text="Number(exportData.QtyGapMT).toLocaleString('en-US', {maximumFractionDigits: 2})"></td>
                                                                             <td x-text="indoDate(exportData.TglClosing)"></td>
+                                                                            <td x-text="indoDate(exportData.TglBOC)"></td>
                                                                             <td x-text="exportData.TimeClosing.slice(0, -3)"></td>
                                                                             <td :class="!exportData.PGI ? 'text-danger' : ''" x-text="exportData.PGI"></td>
                                                                             <td>
