@@ -142,7 +142,16 @@
                                                     <div class="card-block">
                                                         
                                                         <div class="form-group row">
-                                                            <label class="col-sm-2 col-form-label">Tanggal Closing</label>
+                                                            <div class="col-sm2">
+                                                                <select class="form-control" x-model="selTypeValue">
+                                                                    <template x-for="selection in selType" :key="selection.id">
+                                                                        <option
+                                                                            x-bind:value="selection.id"
+                                                                            x-text="selection.name" 
+                                                                        >
+                                                                    </template>
+                                                                </select>
+                                                            </div>
                                                             <div class="col-sm-3">
                                                                     <input id="txt_tglFrom" x-model="tglFrom" type="date" class="form-control">
                                                             </div>
@@ -327,6 +336,11 @@
                 importShow: false,
                 NoDN: 0,
                 errors: {},
+                selType: [
+                    { id: 'BOCHeader.TglClosing', name: 'Tanggal Closing' },
+                    { id: 'BOC.TglBOC', name: 'Tanggal BOC' }
+                ],
+                selTypeValue: "BOCHeader.TglClosing",
                
                 clearForm(){
                     this.warehouse = "PM3"
@@ -335,7 +349,6 @@
                 },
                 tableExport: [],
                 enableSaveButton: true,
-                selDetailValue: "true",
                 async getData(){
                     Alpine.store('globVar').isLoading = true
                     //this.dateFrom = new Date(document.getElementById("txt_tglFrom").value)
@@ -348,6 +361,7 @@
                         let postBody = { 
                                     "tglFrom": this.tglFrom,
                                     "tglTo": this.tglTo,
+                                    "tglType": this.selTypeValue,
                                     "warehouse": this.warehouse
                                 }
                         try {
