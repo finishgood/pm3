@@ -182,7 +182,7 @@
                                                                         <th>Realisasi</th>
                                                                         <th>Proses</th>
                                                                         <th>Belum Datang</th>
-                                                                        <th>Belum T2</th>
+                                                                        <th>Parkir DCO</th>
                                                                         <th>Plan (MT)</th>
                                                                         <th>Realisasi (MT)</th>
                                                                         <th>Gap (MT)</th>
@@ -203,7 +203,7 @@
                                                                             <td x-text="exportData.QtyDN"></td>
                                                                             <td x-text="exportData.QtyProses"></td>
                                                                             <td :class="exportData.QtyGap > 0 ? 'text-danger' : ''" x-text="exportData.QtyGap"></td>
-                                                                            <td x-text="exportData.QtyBelumTimbang2"></td>
+                                                                            <td x-text="exportData.QtyParkirDCO"></td>
                                                                             <td x-text="Number(exportData.QtyPlanMT).toLocaleString('en-US', {maximumFractionDigits: 2})"></td>
                                                                             <td x-text="Number(exportData.QtyDNMT).toLocaleString('en-US', {maximumFractionDigits: 2})"></td>
                                                                             <td :class="exportData.QtyGapMT > 0 ? 'text-danger' : ''" x-text="Number(exportData.QtyGapMT).toLocaleString('en-US', {maximumFractionDigits: 2})"></td>
