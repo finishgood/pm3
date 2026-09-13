@@ -182,7 +182,7 @@
                                                                         <th>Realisasi</th>
                                                                         <th>Proses</th>
                                                                         <th>Belum Datang</th>
-                                                                        <th>Belum Timbang 2</th>
+                                                                        <th>Belum T2</th>
                                                                         <th>Plan (MT)</th>
                                                                         <th>Realisasi (MT)</th>
                                                                         <th>Gap (MT)</th>
