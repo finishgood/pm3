@@ -177,6 +177,7 @@
                                                                     <tr class="bg-primary">
                                                                         <th>No</th>
                                                                         <th>No DN</th>
+                                                                        <th>Form</th>
                                                                         <th>Plan</th>
                                                                         <th>Realisasi</th>
                                                                         <th>Proses</th>
@@ -196,6 +197,7 @@
                                                                         <tr>
                                                                             <th scope="row" x-text="index+1"></th>
                                                                             <td x-text="exportData.NoDN"></td>
+                                                                            <td x-text="exportData.ProductForm"></td>
                                                                             <td x-text="exportData.QtyPlan"></td>
                                                                             <td x-text="exportData.QtyDN"></td>
                                                                             <td x-text="exportData.QtyProses"></td>
